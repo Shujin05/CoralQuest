@@ -25,7 +25,7 @@ export default function LeaderboardScreen() {
     <SafeAreaView style={styles.container}>
         <TouchableOpacity onPress={()=> {router.push("./")}}>
             <Image
-            source={require("../../assets/images/logo.png")}
+            source={require("../../assets/images/back.png")}
             style={styles.closeButton}
             />
         </TouchableOpacity>
@@ -51,12 +51,12 @@ export default function LeaderboardScreen() {
 }
 
 const styles = StyleSheet.create({
-    closeButton: {
-        width: 20,
-        height: 20,
-        marginBottom: 32,
-        marginTop: 10
-    }, 
+  closeButton: {
+    width: 20,
+    height: 20,
+    marginBottom: 10,
+    marginTop: 10
+  }, 
   container: {
     flex: 1,
     backgroundColor: Colors.lightBg,

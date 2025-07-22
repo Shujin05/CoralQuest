@@ -1,104 +1,159 @@
-import { Link, Stack } from 'expo-router';
-import { View, StyleSheet, SafeAreaView, TextInput, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
-import React, {useState} from "react"
-
-import ThemedText from '@/components/text/ThemedText';
-import StyledTextInput from '@/components/general/StyledTextInput';
+import React, { useState } from 'react';
+import {
+  Alert,
+  StyleSheet,
+  View,
+  AppState,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import { Button, Input } from '@rneui/themed';
 import Colors from '@/constants/Colors';
-import TextButton from '@/components/buttons/TextButton';
-import { useAuth } from '@/context/authContext';
-import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import ThemedText from '@/components/text/ThemedText';
+import supabase from '@/lib/supabaseClient';
+import { Link, useRouter } from 'expo-router';
 
-export default function Register() {
-    const [inputs, setInputs] = useState({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: ""
-    })
+AppState.addEventListener('change', (state) => {
+  if (state === 'active') {
+    supabase.auth.startAutoRefresh();
+  } else {
+    supabase.auth.stopAutoRefresh();
+  }
+});
 
-    const {register} = useAuth()
+export default function SignUp() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const router = useRouter()
 
-    const router = useRouter()
-
-    const handleRegister = async() => {
-      try {
-        const res = await register(inputs.name, inputs.email, inputs.password, inputs.confirmPassword);
-        if (res.success) {
-          router.replace("./(tabs)/") // redirect to home page
-        } else {
-          console.log(res.message)
-        }
-      } catch (err) {
-        console.log(err);
-      }
+  async function signUpWithEmail() {
+    if (password !== confirmPassword) {
+      Alert.alert('Passwords do not match');
+      return;
     }
-    
-    return (
-    <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // iOS needs 'padding'
-        keyboardVerticalOffset={-100}
-        style={styles.container}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center'}}>
-            <View style={styles.uiContainer}>
-            <ThemedText type="font_lg" style={{marginBottom: 16}}>Register</ThemedText>
-            <StyledTextInput
-                value={inputs.name}
-                placeholder="Enter username here"
-                onChangeText={(e)=>setInputs(prev=>({...prev, name: e}))}
-                label="Username"
-            />
-            <StyledTextInput
-                value={inputs.email}
-                placeholder="Enter email here"
-                onChangeText={(e)=>setInputs(prev=>({...prev, email: e}))}
-                label="Email"
-            />
-            <StyledTextInput
-                value={inputs.password}
-                placeholder="Enter password here"
-                onChangeText={(e)=>setInputs(prev=>({...prev, password: e}))}
-                label="Password"
-                secureTextEntry={true}
-            />
-            <StyledTextInput
-                value={inputs.confirmPassword}
-                placeholder="Enter password again"
-                onChangeText={(e)=>setInputs(prev=>({...prev, confirmPassword: e}))}
-                label="Confirm Password"
-                secureTextEntry={true}
-            />
-            <TextButton
-                style={{marginTop: 32, marginBottom: 16}}
-                onPress={handleRegister}
-            >
-                <ThemedText type="font_sm">Register</ThemedText>
-            </TextButton>
-            <ThemedText type="subtitle">Already have an account? <Link href="/login" style={{textDecorationLine: 'underline', fontWeight: "bold"}}>Log in</Link></ThemedText>
+
+    setLoading(true);
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (error) Alert.alert(error.message);
+    if (!session) Alert.alert('Please check your inbox for email verification!');
+    setLoading(false);
+    router.replace("/(tabs)")
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={styles.innerContainer}
+      >
+        <View style={styles.logoContainer}>
+          <ThemedText type="font_lg" style={styles.title}>
+            Welcome to Coral Quest!
+          </ThemedText>
+          <ThemedText style={styles.subtitle}>
+            Sign up to start your coral learning journey today
+          </ThemedText>
         </View>
-        </ScrollView>
-        
-        
-    </KeyboardAvoidingView>
-    );
+
+        <View style={styles.form}>
+          <Input
+            label="Email"
+            leftIcon={{ type: 'font-awesome', name: 'envelope' }}
+            onChangeText={setEmail}
+            value={email}
+            placeholder="email@address.com"
+            autoCapitalize="none"
+            inputContainerStyle={styles.input}
+          />
+
+          <Input
+            label="Password"
+            leftIcon={{ type: 'font-awesome', name: 'lock' }}
+            onChangeText={setPassword}
+            value={password}
+            secureTextEntry
+            placeholder="Password"
+            autoCapitalize="none"
+            inputContainerStyle={styles.input}
+          />
+
+          <Input
+            label="Confirm Password"
+            leftIcon={{ type: 'font-awesome', name: 'lock' }}
+            onChangeText={setConfirmPassword}
+            value={confirmPassword}
+            secureTextEntry
+            placeholder="Confirm Password"
+            autoCapitalize="none"
+            inputContainerStyle={styles.input}
+          />
+
+          <View style={styles.buttonGroup}>
+            <Button
+              title="Sign Up"
+              disabled={loading}
+              onPress={signUpWithEmail}
+              buttonStyle={styles.button}
+            />
+            <ThemedText type="subtitle">
+              Already have an account?{' '}
+              <Link href="/login" style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}>
+                Sign in
+              </Link>
+            </ThemedText>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 10,
     backgroundColor: Colors.lightBg,
   },
-  uiContainer: {
+  innerContainer: {
     flex: 1,
-    width: "100%",
-    padding: 30,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center"
+    padding: 20,
+    justifyContent: 'center',
   },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#555',
+  },
+  form: {
+    gap: 16,
+  },
+  input: {
+    borderBottomColor: '#ccc',
+  },
+  buttonGroup: {
+    marginTop: 24,
+    gap: 12,
+  },
+  button: {
+    backgroundColor: '#f88379',
+    borderRadius: 8,
+    paddingVertical: 12,
   },
 });

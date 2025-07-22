@@ -13,9 +13,11 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.uiContainer}>
-      <TouchableOpacity onPress={()=> router.push("/profile")}>
-      <Image source={require("../../assets/images/logo.png")} style={styles.profileIcon}/>
-      </TouchableOpacity>
+      <View style={styles.iconContainer}>
+        <TouchableOpacity onPress={()=> router.push("/profile")}>
+          <Image source={require("../../assets/images/logo.png")} style={styles.profileIcon}/>
+        </TouchableOpacity>
+      </View>
       <View style={styles.logoContainer}>
         <Image
           source={require('../../assets/images/logo.png')}
@@ -74,13 +76,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.lightBg,
   },
+  iconContainer: {
+    position: 'absolute',
+    top: Platform.OS === 'android' ? 40 : 16,
+    right: 16,
+    zIndex: 10,
+  }, 
   logoContainer: {
     marginBottom: 20,
   },
   profileIcon: {
-    position: 'absolute', 
-    top: 8,
-    right: 16,
     width: 30, 
     height: 30, 
     borderRadius: 12,

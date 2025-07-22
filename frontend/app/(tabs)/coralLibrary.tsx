@@ -63,7 +63,12 @@ export default function CoralLibrary() {
 
   return (
     <SafeAreaView style={styles.container}>
-
+      <TouchableOpacity onPress={()=> {router.push("./")}}>
+        <Image
+          source={require("../../assets/images/back.png")}
+          style={styles.backButton}
+        />
+      </TouchableOpacity>
       <View style={styles.topBar}>
         <TextInput
           placeholder="Search coral..."
@@ -139,11 +144,11 @@ export default function CoralLibrary() {
 }
 
 const styles = StyleSheet.create({
-  closeButton: {
-        width: 20,
-        height: 20,
-        marginBottom: 32,
-        marginTop: 10
+  backButton: {
+    width: 20,
+    height: 20,
+    marginBottom: 10,
+    marginTop: 10
   }, 
     container: {
     flex: 1,

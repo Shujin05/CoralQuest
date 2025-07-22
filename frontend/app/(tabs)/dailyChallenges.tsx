@@ -20,7 +20,7 @@ export default function dailyChallenges() {
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={()=> {router.push("./")}}>
         <Image
-        source={require("../../assets/images/logo.png")}
+        source={require("../../assets/images/back.png")}
         style={styles.closeButton}
         />
       </TouchableOpacity>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   closeButton: {
         width: 20,
         height: 20,
-        marginBottom: 32,
+        marginBottom: 10, 
         marginTop: 10
   }, 
   container: {

@@ -35,6 +35,7 @@ export default function TabLayout() {
         <Stack.Screen name="leaderboard" options={{headerShown: false}} />
         <Stack.Screen name="coralLibrary" options={{headerShown: false}} />
         <Stack.Screen name="dailyChallenges" options={{headerShown: false}} />
+        <Stack.Screen name="profile" options={{headerShown: false}} />
       </Stack>      
   );
 }
