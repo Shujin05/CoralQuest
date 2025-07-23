@@ -7,21 +7,22 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import {useAuth} from "@/context/authContext"
 import { useRouter } from 'expo-router';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
-  const {loading, isLoggedIn} = useAuth();
+  const {loading, session} = useAuth();
 
   const router = useRouter()
 
   useEffect(() => {
-    if (!loading && !isLoggedIn) {
+    if (!loading && !session) {
       router.replace('/login');
     }
-  }, [loading, isLoggedIn]);
+  }, [loading, session]);
 
-  if (loading || !isLoggedIn) {
+  if (loading || !session) {
     return (
       <SafeAreaView>
         <ActivityIndicator size="large" />
@@ -31,11 +32,11 @@ export default function TabLayout() {
 
   return (
       <Stack>
-        <Stack.Screen name="index" options={{headerShown: false}} />
-        <Stack.Screen name="leaderboard" options={{headerShown: false}} />
-        <Stack.Screen name="coralLibrary" options={{headerShown: false}} />
-        <Stack.Screen name="dailyChallenges" options={{headerShown: false}} />
-        <Stack.Screen name="profile" options={{headerShown: false}} />
+          <Stack.Screen name="index" options={{headerShown: false}} />
+          <Stack.Screen name="leaderboard" options={{headerShown: false}} />
+          <Stack.Screen name="coralLibrary" options={{headerShown: false}} />
+          <Stack.Screen name="dailyChallenges" options={{headerShown: false}} />
+          <Stack.Screen name="profile" options={{headerShown: false}} />
       </Stack>      
   );
 }
@@ -45,3 +46,4 @@ const styles = StyleSheet.create({
     flex: 1, // Ensures the container takes up full screen
   },
 });
+

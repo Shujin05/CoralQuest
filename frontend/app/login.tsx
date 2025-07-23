@@ -14,20 +14,21 @@ import ThemedText from '@/components/text/ThemedText';
 import supabase from '@/lib/supabaseClient';
 import { Link, useRouter } from 'expo-router';
 import { Router } from 'expo-router';
-
-AppState.addEventListener('change', (state) => {
-  if (state === 'active') {
-    supabase.auth.startAutoRefresh();
-  } else {
-    supabase.auth.stopAutoRefresh();
-  }
-});
+import { useAuth } from '@/context/authContext';
+import { useEffect } from 'react';
 
 export default function login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter()
+  const { session } = useAuth(); 
+
+  useEffect(() => {
+    if (session) {
+      router.replace('/(tabs)');
+    }
+  }, [session]);
 
   async function signInWithEmail() {
     setLoading(true);
@@ -35,10 +36,8 @@ export default function login() {
       email,
       password,
     });
-
     if (error) Alert.alert(error.message);
     setLoading(false);
-    router.replace("/(tabs)")
   }
 
   return (

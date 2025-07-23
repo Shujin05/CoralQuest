@@ -1,12 +1,15 @@
 // context/authContext.tsx
-import { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
-import supabase from '@/lib/supabaseClient';
+import { AppState, AppStateStatus } from 'react-native';
+import { supabase } from '@/lib/supabase';
 
-const AuthContext = createContext<{
+type AuthContextType = {
   session: Session | null;
   loading: boolean;
-}>({
+};
+
+const AuthContext = createContext<AuthContextType>({
   session: null,
   loading: true,
 });
@@ -16,19 +19,37 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const init = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setSession(session);
+    const getSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) console.error('Error getting session:', error);
+      setSession(data?.session ?? null);
       setLoading(false);
     };
-    init();
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    getSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
 
     return () => {
-      listener?.subscription.unsubscribe();
+      authListener.subscription?.unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleAppStateChange = (state: AppStateStatus) => {
+      if (state === 'active') {
+        supabase.auth.startAutoRefresh();
+      } else {
+        supabase.auth.stopAutoRefresh();
+      }
+    };
+
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+
+    return () => {
+      subscription.remove();
     };
   }, []);
 

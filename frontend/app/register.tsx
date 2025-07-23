@@ -13,14 +13,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ThemedText from '@/components/text/ThemedText';
 import supabase from '@/lib/supabaseClient';
 import { Link, useRouter } from 'expo-router';
-
-AppState.addEventListener('change', (state) => {
-  if (state === 'active') {
-    supabase.auth.startAutoRefresh();
-  } else {
-    supabase.auth.stopAutoRefresh();
-  }
-});
+import { useEffect } from 'react';
+import { useAuth } from '@/context/authContext';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -28,6 +22,13 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter()
+  const { session } = useAuth(); 
+  
+    useEffect(() => {
+      if (session) {
+        router.replace('/(tabs)');
+      }
+    }, [session]);
 
   async function signUpWithEmail() {
     if (password !== confirmPassword) {
@@ -47,7 +48,6 @@ export default function SignUp() {
     if (error) Alert.alert(error.message);
     if (!session) Alert.alert('Please check your inbox for email verification!');
     setLoading(false);
-    router.replace("/(tabs)")
   }
 
   return (

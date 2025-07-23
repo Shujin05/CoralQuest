@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { Button } from '@rneui/themed';
+import supabase from '@/lib/supabaseClient';
 
 const stats = {
   courses: {
@@ -18,17 +20,27 @@ const badges = [
   { id: '3', name: 'Challenge Champ', icon: require('../../assets/images/logo.png') },
 ];
 
-const router = useRouter(); 
-
 export default function ProfileScreen() {
+  const router = useRouter();
+
+  async function handleLogout() {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      Alert.alert('Logout failed', error.message);
+    } else {
+      router.replace('/login'); // Navigate to login screen after logout
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-        <TouchableOpacity onPress={()=> {router.push("./")}}>
-            <Image
-            source={require("../../assets/images/back.png")}
-            style={styles.closeButton}
-            />
-        </TouchableOpacity>
+      <TouchableOpacity onPress={() => router.push('./')}>
+        <Image
+          source={require('../../assets/images/back.png')}
+          style={styles.closeButton}
+        />
+      </TouchableOpacity>
+
       <View style={styles.profileContainer}>
         <Image
           source={require('../../assets/images/logo.png')}
@@ -72,6 +84,13 @@ export default function ProfileScreen() {
           )}
         />
       </View>
+
+      <Button
+        title="Logout"
+        onPress={handleLogout}
+        buttonStyle={styles.logoutButton}
+        containerStyle={styles.logoutButtonContainer}
+      />
     </SafeAreaView>
   );
 }
@@ -82,12 +101,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF8E7',
     padding: 20,
   },
-    closeButton: {
+  closeButton: {
     width: 20,
     height: 20,
     marginBottom: 10,
-    marginTop: 10
-  }, 
+    marginTop: 10,
+  },
   profileContainer: {
     alignItems: 'center',
     marginBottom: 30,
@@ -157,5 +176,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'center',
     color: '#333',
+  },
+  logoutButtonContainer: {
+    marginTop: 20,
+  },
+  logoutButton: {
+    backgroundColor: '#f88379',
+    borderRadius: 8,
+    paddingVertical: 12,
   },
 });
