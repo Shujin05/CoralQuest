@@ -8,9 +8,9 @@ import { Image } from 'expo-image';
 
 // Hardcoded (for now)
 const Challenges = [
-  { id: '1', name: 'Coral Identification', points: 200, timeLimit: '30 minutes' },
-  { id: '2', name: 'Underwater Cleanup', points: 150, timeLimit: '1 hour' },
-  { id: '3', name: 'Coral Growth Tracking', points: 250, timeLimit: '45 minutes' },
+  { id: '1', name: 'Coral Memory Game', points: 200, route:"/(tabs)/dailyChallenge1" },
+  { id: '2', name: 'Underwater Cleanup', points: 150, route:"/(tabs)/dailyChallenge2"},
+  { id: '3', name: 'Coral Growth Tracking', points: 250, route: "/(tabs)/dailyChallenge3"},
 ];
 
 const router = useRouter()
@@ -33,9 +33,8 @@ export default function dailyChallenges() {
             <Text style={styles.challengeName}>{item.name}</Text>
             <View style={styles.challengeDetails}>
               <Text style={styles.challengePoints}>+{item.points} pts</Text>
-              <Text style={styles.challengeTime}>Time Limit: {item.timeLimit}</Text>
             </View>
-            <TouchableOpacity style={styles.button} onPress={() => console.log(`Starting challenge: ${item.name}`)}>
+            <TouchableOpacity style={styles.button} onPress={() => router.push(item.route)}>
               <Text style={styles.buttonText}>Start Challenge</Text>
             </TouchableOpacity>
           </View>

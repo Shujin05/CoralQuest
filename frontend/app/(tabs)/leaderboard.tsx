@@ -1,26 +1,44 @@
 import ThemedText from '@/components/text/ThemedText';
 import Colors from '@/constants/Colors';
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, StyleSheet, View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-
-const leaderboardData = [
-  { id: '1', name: 'CoralQueen42', points: 2450 },
-  { id: '2', name: 'ReefSaver', points: 2000 },
-  { id: '3', name: 'OceanGuardian', points: 1800 },
-  { id: '4', name: 'CoralLover', points: 1600 },
-  { id: '5', name: 'DiverDude', points: 1400 },
-  { id: '6', name: 'SnorkelGal', points: 1200 },
-];
-
-const medalEmoji = ['🥇', '🥈', '🥉'];
-
-const router = useRouter(); 
+import { useEffect } from 'react';
+import supabase from '@/lib/supabaseClient';
+import { useAuth } from '@/context/authContext';
 
 export default function LeaderboardScreen() {
+  const medalEmoji = ['🥇', '🥈', '🥉'];
+  const [leaderboardData, setLeaderboardData] = useState([])
+  const {session, loading} = useAuth()
+  const router = useRouter(); 
+
+useEffect(() => {
+  const fetchLeaderboardData = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('id, username, points')
+        .order('points', { ascending: false }) // Sort by descending order
+        .limit(5); // top 5 users
+
+      if (error) {
+        console.error('Error fetching leaderboard data:', error);
+        return;
+      }
+
+      setLeaderboardData(data);
+      console.log(data)
+    } catch (error) {
+      console.error('Unexpected error:', error);
+    }
+  };
+  fetchLeaderboardData();
+}, []);
+
   return (
     <SafeAreaView style={styles.container}>
         <TouchableOpacity onPress={()=> {router.push("./")}}>
@@ -32,7 +50,6 @@ export default function LeaderboardScreen() {
       <ThemedText type='font_md' style={styles.header}>Leaderboard</ThemedText>
       <FlatList
         data={leaderboardData}
-        keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
         renderItem={({ item, index }) => (
           <View style={styles.itemContainer}>
@@ -40,7 +57,7 @@ export default function LeaderboardScreen() {
               {index < 3 ? medalEmoji[index] : index + 1}
             </Text>
             <View style={styles.userInfo}>
-              <Text style={styles.name}>{item.name}</Text>
+              <Text style={styles.name}>{item.username}</Text>
               <Text style={styles.points}>{item.points} pts</Text>
             </View>
           </View>

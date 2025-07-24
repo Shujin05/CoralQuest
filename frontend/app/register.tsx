@@ -15,12 +15,14 @@ import supabase from '@/lib/supabaseClient';
 import { Link, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { useAuth } from '@/context/authContext';
+import bcrypt from 'bcryptjs';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState('')
   const router = useRouter()
   const { session } = useAuth(); 
   
@@ -45,8 +47,40 @@ export default function SignUp() {
       password,
     });
 
-    if (error) Alert.alert(error.message);
-    if (!session) Alert.alert('Please check your inbox for email verification!');
+    if (error) {
+      Alert.alert(error.message);
+      setLoading(false);
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const { data, error: insertError } = await supabase
+      .from('users')
+      .insert([
+        {
+          id: session.user.id,  
+          email: email,
+          password: hashedPassword, 
+          daily_streak: 0,
+          points: 0, 
+          profile_pic: '', 
+          username: username, 
+        }
+      ]);
+
+    if (insertError) {
+      console.error('Error details:', insertError);
+      Alert.alert(`Error inserting user data: ${insertError.message}\n\nDetails: ${JSON.stringify(insertError)}`);
+      setLoading(false);
+      return;
+    }
+
+    console.log('User created and data added to public.users:', data);
+
+    if (!session) {
+      Alert.alert('Please check your inbox for email verification!');
+    }
     setLoading(false);
   }
 
@@ -66,6 +100,16 @@ export default function SignUp() {
         </View>
 
         <View style={styles.form}>
+        <Input
+            label="Username"
+            leftIcon={{ type: 'font-awesome' }}
+            onChangeText={setUsername}
+            value={username}
+            placeholder="Username"
+            autoCapitalize="none"
+            inputContainerStyle={styles.input}
+          />
+
           <Input
             label="Email"
             leftIcon={{ type: 'font-awesome', name: 'envelope' }}

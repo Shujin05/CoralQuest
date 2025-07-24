@@ -1,27 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Button } from '@rneui/themed';
 import supabase from '@/lib/supabaseClient';
-
-const stats = {
-  courses: {
-    Acropora: 3,
-    Montipora: 2,
-    Porites: 4,
-  },
-  dailyChallenges: 18,
-};
-
-const badges = [
-  { id: '1', name: 'Beginner Diver', icon: require('../../assets/images/logo.png') },
-  { id: '2', name: 'Species Specialist', icon: require('../../assets/images/logo.png') },
-  { id: '3', name: 'Challenge Champ', icon: require('../../assets/images/logo.png') },
-];
+import { useEffect } from 'react';
+import { useAuth } from '@/context/authContext';
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const {session, loading} = useAuth()
+  const [username, setUsername ] = useState('') 
+
+
+    async function getUsername(
+    ) {
+      try {
+        const { data, error } = await supabase
+          .from('users')
+          .select('username')
+          .eq('id', session?.user.id)
+          .single(); // Fetch only one record
+
+        if (error) {
+          console.error('Error fetching username:', error);
+          Alert.alert('Error fetching username', error.message);
+          return null;
+        }
+
+        return {
+          username: data.username
+        };
+      } catch (error) {
+        console.error('Unexpected error:', error);
+        return null;
+      }
+    }
+
+    useEffect(() => {
+      if (!session) {
+        return;
+      }
+
+      const fetchUserStats = async () => {
+        const userInfo = await getUsername();
+        if (userInfo) {
+          setUsername(userInfo.username)
+        }
+      };
+
+      fetchUserStats();
+    }, [session]); 
+
+  const badges = [
+    { id: '1', name: 'Beginner Diver', icon: require('../../assets/images/badges/beginner_diver.png') },
+    { id: '2', name: 'Species Specialist', icon: require('../../assets/images/badges/species_specialist.png') },
+    { id: '3', name: 'One Week Warrior', icon: require('../../assets/images/badges/one_week_warrior.png') },
+  ];
 
   async function handleLogout() {
     const { error } = await supabase.auth.signOut();
@@ -46,27 +81,7 @@ export default function ProfileScreen() {
           source={require('../../assets/images/logo.png')}
           style={styles.profileImage}
         />
-        <Text style={styles.profileName}>CoralExplorer99</Text>
-      </View>
-
-      <View style={styles.statsContainer}>
-        <Text style={styles.sectionTitle}>Completed Courses:</Text>
-        <View style={styles.statItem}>
-          <Text style={styles.statLabel}>Acropora:</Text>
-          <Text style={styles.statValue}>{stats.courses.Acropora}</Text>
-        </View>
-        <View style={styles.statItem}>
-          <Text style={styles.statLabel}>Montipora:</Text>
-          <Text style={styles.statValue}>{stats.courses.Montipora}</Text>
-        </View>
-        <View style={styles.statItem}>
-          <Text style={styles.statLabel}>Porites:</Text>
-          <Text style={styles.statValue}>{stats.courses.Porites}</Text>
-        </View>
-        <View style={styles.statItem}>
-          <Text style={styles.statLabel}>Daily Challenges Completed:</Text>
-          <Text style={styles.statValue}>{stats.dailyChallenges}</Text>
-        </View>
+        <Text style={styles.profileName}>{username}</Text>
       </View>
 
       <View style={styles.achievementsContainer}>
