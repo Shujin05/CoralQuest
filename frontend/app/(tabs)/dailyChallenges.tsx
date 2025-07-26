@@ -9,7 +9,7 @@ import { Image } from 'expo-image';
 // Hardcoded (for now)
 const Challenges = [
   { id: '1', name: 'Coral Memory Game', points: 200, route:"/(tabs)/dailyChallenge1" },
-  { id: '2', name: 'Underwater Cleanup', points: 150, route:"/(tabs)/dailyChallenge2"},
+  { id: '2', name: 'Reef Detective', points: 150, route:"/(tabs)/dailyChallenge2"},
   { id: '3', name: 'Coral Growth Tracking', points: 250, route: "/(tabs)/dailyChallenge3"},
 ];
 
@@ -46,10 +46,10 @@ export default function dailyChallenges() {
 
 const styles = StyleSheet.create({
   closeButton: {
-        width: 20,
-        height: 20,
-        marginBottom: 10, 
-        marginTop: 10
+    width: 20,
+    height: 20,
+    marginBottom: 10, 
+    marginTop: 10
   }, 
   container: {
     flex: 1,

@@ -1,7 +1,5 @@
-import { Image } from 'expo-image';
 import { Platform, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View } from 'react-native';
 import ThemedText from '@/components/text/ThemedText';
 import AnimatedButton from '@/components/buttons/AnimatedButton';
 import { useRouter } from 'expo-router';
@@ -12,6 +10,9 @@ import supabase from '@/lib/supabaseClient';
 import { Alert } from 'react-native';
 import { Modal, Pressable } from 'react-native';
 import { useEffect } from 'react';
+import { View, Image } from 'react-native';
+import {  Circle, Text as SvgText, TextPath, TSpan, G, Svg } from 'react-native-svg';
+import React, { Component } from 'react';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -94,20 +95,21 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.uiContainer}>
+      <ScrollView>
       <View style={styles.iconContainer}>
         <TouchableOpacity onPress={()=> router.push("/profile")}>
           <Image source={require("../../assets/images/logo.png")} style={styles.profileIcon}/>
         </TouchableOpacity>
       </View>
-      <View style={styles.logoContainer}>
         {dailyCoral && (
+      <View style={styles.coralContainer}>
+          <ThemedText type="font_lg" style={styles.coralTitle}>Coral of the Day</ThemedText>
           <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.coralCard}>
-          <ThemedText style={styles.coralName}>Coral of the Day</ThemedText>
             <Image source={dailyCoral.image} style={styles.coralImage} />
-            <ThemedText style={styles.coralName}>{dailyCoral.name}</ThemedText>
           </TouchableOpacity>
+          <ThemedText type="font_md" style={styles.coralName}>{dailyCoral.name}</ThemedText>
+        </View>
         )}
-      </View>
       <View style={styles.statsRow}>
         <View style={styles.statItem}>
           <ThemedText style={styles.largerText}>{points}</ThemedText>
@@ -161,6 +163,7 @@ export default function HomeScreen() {
           </View>
         </View>
       </Modal>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -178,12 +181,13 @@ const styles = StyleSheet.create({
     right: 16,
     zIndex: 10,
   }, 
-  logoContainer: {
+  coralContainer: {
     marginBottom: 20,
+    alignItems: 'center'
   },
   profileIcon: {
-    width: 30, 
-    height: 30, 
+    width: 45, 
+    height: 45, 
     borderRadius: 12,
   }, 
   logo: {
@@ -222,31 +226,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }, 
   coralCard: {
-  alignItems: 'center',
-  marginBottom: 20,
-  backgroundColor: '#fff',
-  padding: 12,
-  borderRadius: 16,
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 4 },
-  shadowOpacity: 0.2,
-  shadowRadius: 6,
-  elevation: 5,
-},
-
-coralImage: {
-  width: 180,
-  height: 120,
-  borderRadius: 12,
-  resizeMode: 'cover',
-},
+    alignItems: 'center',
+    justifyContent: 'center',  
+    marginBottom: 20,
+    width: 180,  
+    height: 180,
+    borderRadius: 90,
+    backgroundColor: Colors.primary,
+    padding: 5,
+  },
+  coralImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,  
+    resizeMode: 'cover', 
+  },
 
 coralName: {
-  fontSize: 18,
+  fontSize: 24,
   fontWeight: 'bold',
-  marginTop: 10,
   textAlign: 'center',
 },
+coralTitle: {
+  fontSize: 24,
+  fontWeight: 'bold',
+  textAlign: 'center',
+  marginBottom: 5,
+},
+
 
 modalOverlay: {
   flex: 1,
@@ -274,6 +281,7 @@ modalTitle: {
   fontSize: 20,
   fontWeight: 'bold',
   marginBottom: 10,
+  color: Colors.primary
 },
 
 modalDescription: {

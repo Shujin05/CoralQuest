@@ -66,6 +66,7 @@ export default function SignUp() {
           points: 0, 
           profile_pic: '', 
           username: username, 
+          last_sign_in: new Date().toISOString(),  
         }
       ]);
 

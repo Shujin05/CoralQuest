@@ -39,6 +39,7 @@ export default function TabLayout() {
           <Stack.Screen name="profile" options={{headerShown: false}} />
           <Stack.Screen name="dailyChallenge1" options={{ headerShown: false }} />
           <Stack.Screen name="dailyChallenge2" options={{ headerShown: false }} />
+          <Stack.Screen name="dailyChallenge3" options={{ headerShown: false }} />
       </Stack>      
   );
 }

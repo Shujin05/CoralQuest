@@ -6,12 +6,14 @@ import { Button } from '@rneui/themed';
 import supabase from '@/lib/supabaseClient';
 import { useEffect } from 'react';
 import { useAuth } from '@/context/authContext';
+import { Modal } from 'react-native';
 
 export default function ProfileScreen() {
   const router = useRouter();
   const {session, loading} = useAuth()
   const [username, setUsername ] = useState('') 
-
+  const [isBadgeModalVisible, setBadgeModalVisible] = useState(false);
+  const [selectedBadge, setSelectedBadge] = useState(null);
 
     async function getUsername(
     ) {
@@ -53,10 +55,25 @@ export default function ProfileScreen() {
     }, [session]); 
 
   const badges = [
-    { id: '1', name: 'Beginner Diver', icon: require('../../assets/images/badges/beginner_diver.png') },
-    { id: '2', name: 'Species Specialist', icon: require('../../assets/images/badges/species_specialist.png') },
-    { id: '3', name: 'One Week Warrior', icon: require('../../assets/images/badges/one_week_warrior.png') },
+    { id: '1', name: 'Beginner Diver', icon: require('../../assets/images/badges/beginner_diver.png'), description: 'Welcome to the diving club! You completed your first coral identification challenge.'}, 
+    { id: '2', name: 'Species Specialist', icon: require('../../assets/images/badges/species_specialist.png'), description: 'For your deep expertise, you deserve this title. Awarded after completing all units of one species' },
+    { id: '3', name: 'One Week Warrior', icon: require('../../assets/images/badges/one_week_warrior.png'), description: 'Consistent is key! Kuddos for maintaining a streak of 7 days'},
+    { id: '4', name: 'Coral Champion', icon: require('../../assets/images/badges/coral_champion.png'), description: 'Awarded after completing all the daily challenges for 3 days consecutively'},
+    { id: '5', name: 'Garden Guardian', icon: require('../../assets/images/badges/garden_guardian.png'), description: 'Awarded after planting 10 corals in your coral garden.'},
+    { id: '6', name: 'Treasure Maniac', icon: require('../../assets/images/badges/treasure_maniac.png'), description: 'Awarded after purchasing 5 decorative elements.'},
+    { id: '7', name: 'Growth Form Guru', icon: require('../../assets/images/badges/growth_form_guru.png'), description: 'Awarded after identifying 10 different growth forms of corals.' }
   ];
+
+  const showBadgeModal = (badge) => {
+    setSelectedBadge(badge);
+    setBadgeModalVisible(true);
+  };
+
+  // Function to close badge modal
+  const closeBadgeModal = () => {
+    setBadgeModalVisible(false);
+    setSelectedBadge(null);
+  };
 
   async function handleLogout() {
     const { error } = await supabase.auth.signOut();
@@ -83,7 +100,6 @@ export default function ProfileScreen() {
         />
         <Text style={styles.profileName}>{username}</Text>
       </View>
-
       <View style={styles.achievementsContainer}>
         <Text style={styles.sectionTitle}>Achievements</Text>
         <FlatList
@@ -92,20 +108,43 @@ export default function ProfileScreen() {
           numColumns={3}
           contentContainerStyle={styles.badgeGrid}
           renderItem={({ item }) => (
-            <View style={styles.badgeItem}>
-              <Image source={item.icon} style={styles.badgeIcon} />
-              <Text style={styles.badgeName}>{item.name}</Text>
-            </View>
+            <TouchableOpacity onPress={() => showBadgeModal(item)}>
+              <View style={styles.badgeItem}>
+                <Image source={item.icon} style={styles.badgeIcon} />
+              </View>
+            </TouchableOpacity>
           )}
         />
       </View>
-
       <Button
         title="Logout"
         onPress={handleLogout}
         buttonStyle={styles.logoutButton}
         containerStyle={styles.logoutButtonContainer}
       />
+      {/* Badge Modal */}
+      {selectedBadge && (
+        <Modal
+          visible={isBadgeModalVisible}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={closeBadgeModal}
+        >
+          <View style={styles.modalBackground}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>{selectedBadge.name}</Text>
+               <View style={styles.badgeItem}>
+                <Image source={selectedBadge.icon} style={styles.badgeIcon} />
+                <Text style={styles.badgeName}>{selectedBadge.name}</Text>
+              </View>
+              <Text style={styles.modalDescription}>{selectedBadge.description}</Text>
+              <TouchableOpacity onPress={closeBadgeModal} style={styles.closeModalButton}>
+                <Text style={styles.closeModalText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      )}
     </SafeAreaView>
   );
 }
@@ -175,16 +214,18 @@ const styles = StyleSheet.create({
   },
   badgeGrid: {
     marginTop: 12,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignItems: 'center', 
   },
   badgeItem: {
     alignItems: 'center',
     flex: 1,
-    marginBottom: 16,
+    margin: 16,
+    justifyContent: 'center', 
   },
   badgeIcon: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
     marginBottom: 6,
   },
   badgeName: {
@@ -199,5 +240,40 @@ const styles = StyleSheet.create({
     backgroundColor: '#f88379',
     borderRadius: 8,
     paddingVertical: 12,
+  },
+   modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#f88379',
+    marginBottom: 10,
+  },
+  modalDescription: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  closeModalButton: {
+    backgroundColor: '#f88379',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  closeModalText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
