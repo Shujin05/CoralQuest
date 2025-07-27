@@ -14,13 +14,25 @@ import { View, Image } from 'react-native';
 import {  Circle, Text as SvgText, TextPath, TSpan, G, Svg } from 'react-native-svg';
 import React, { Component } from 'react';
 
+interface UserStats {
+  daily_streak: number;
+  points: number;
+}
+
+interface Coral {
+  id: string;
+  name: string;
+  image: any;
+  description: string;
+}
+
 export default function HomeScreen() {
   const router = useRouter();
-  const [streak, setStreak] = useState(0);
-  const [points, setPoints] = useState(0);
+  const [streak, setStreak] = useState<number>(0);
+  const [points, setPoints] = useState<number>(0);
   const { session, loading } = useAuth();
-  const [dailyCoral, setDailyCoral] = useState({});
-  const [modalVisible, setModalVisible] = useState(false);
+  const [dailyCoral, setDailyCoral] = useState<Coral | null>(null);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (!session) {
@@ -38,7 +50,7 @@ export default function HomeScreen() {
     fetchUserStats();
   }, [session]); 
 
-  async function getUserStats(userId) {
+  async function getUserStats(userId: string): Promise<UserStats | null> {
     try {
       const { data, error } = await supabase
         .from('users')

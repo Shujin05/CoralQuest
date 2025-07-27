@@ -5,39 +5,52 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, FlatList, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Modal } from 'react-native';
 
+interface Coral {
+  id: string;
+  name: string;
+  common_name: string;
+  main_image: any; 
+  genus: string;
+  growth_form: string;
+  regions: string[];
+  habitat: string;
+  id_tips: string[];
+  id_tips_images: any[]; 
+  gallery: any[];
+  fun_facts: string[];
+}
+
 const coralData = [
   {
     id: '1',
     name: 'Acropora Cervicornis',
     common_name: 'Staghorn Coral',
-    main_image: require('../../assets/images/logo.png'),
+    main_image: require('../../assets/images/coral_library/acropora_cervicornis/main.webp'),
     genus: 'Acropora',
     growth_form: "Branching",
     regions: ["Malaysia", "Indonesia", "Philippines", "Thailand", "Vietnam", "Brunei", "Singapore", "Timor-Leste", "Myanmar"],
     habitat: "Shallow, warm waters such as reef crests and reef slopes",
     id_tips: ["Pale brown or tan", "White axial corallites"],
-    id_tips_images: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    gallery: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
+    id_tips_images: [require('../../assets/images/coral_library/acropora_cervicornis/id_tip1.jpg'), require('../../assets/images/coral_library/acropora_cervicornis/id_tip2.jpg')],
+    gallery: [require('../../assets/images/coral_library/acropora_cervicornis/gallery_1.webp'), require('../../assets/images/coral_library/acropora_cervicornis/gallery_2.webp'), require('../../assets/images/coral_library/acropora_cervicornis/gallery_3.png'), require('../../assets/images/coral_library/acropora_cervicornis/gallery_4.webp')],
     fun_facts: [
-      "Can form large, complex branching colonies.",
-      "Can withstand strong wave action due to its branching form."
+      "Grows rapidly, with an addition of up to 5 cm of new skeleton per year.",
     ]
   },
   {
     id: '2',
-    name: 'Montipora Digitata',
-    common_name: 'Digitata Coral',
-    main_image: require('../../assets/images/logo.png'),
-    genus: 'Montipora',
-    growth_form: "Digitate",
-    regions: ["Malaysia", "Indonesia", "Australia", "Fiji", "Solomon Islands", "Palau"],
-    habitat: "Found in shallow, reef-associated environments, often on exposed reef flats.",
-    id_tips: ["Purple or pink with yellow tips", "Large polyp size"],
-    id_tips_images: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    gallery: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
+    name: 'Acropora Muricata',
+    common_name: 'Staghorn Coral',
+    main_image: require('../../assets/images/coral_library/acropora_muricata/main.webp'),
+    genus: 'Acropora',
+    growth_form: "Branching",
+    regions: ["Malaysia", "Indonesia", "Philippines", "Thailand", "Vietnam", "Brunei", "Singapore", "Timor-Leste", "Myanmar"],
+    habitat: "Reef slopes and lagoons",
+    id_tips: ["Blue, brown or cream", "Pale branch ends"],
+    id_tips_images: [require('../../assets/images/coral_library/acropora_muricata/id_tip1.webp'), require('../../assets/images/coral_library/acropora_muricata/id_tip2.webp')],
+    gallery: [require('../../assets/images/coral_library/acropora_muricata/gallery_1.webp'), require('../../assets/images/coral_library/acropora_muricata/gallery_2.jpg'), require('../../assets/images/coral_library/acropora_muricata/gallery_3.webp'), require('../../assets/images/coral_library/acropora_muricata/gallery_4.webp')],
     fun_facts: [
-      "Known for its fast growth rates in healthy environments.",
-      "Forms small, tree-like structures, often found in calm, clear waters."
+      "Branches vary in length depending on sea depth (shorter in shallower waters)",
     ]
   },
   {
@@ -158,7 +171,24 @@ const coralData = [
       "The distinctive 'eyes' on its surface make it one of the most unique corals.",
       "Often thrives in deeper reef zones where light penetration is lower."
     ]
-  }
+  }, 
+  {
+    id: '10',
+    name: 'Montipora Digitata',
+    common_name: 'Digitata Coral',
+    main_image: require('../../assets/images/logo.png'),
+    genus: 'Montipora',
+    growth_form: "Digitate",
+    regions: ["Malaysia", "Indonesia", "Australia", "Fiji", "Solomon Islands", "Palau"],
+    habitat: "Found in shallow, reef-associated environments, often on exposed reef flats.",
+    id_tips: ["Purple or pink with yellow tips", "Large polyp size"],
+    id_tips_images: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
+    gallery: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
+    fun_facts: [
+      "Known for its fast growth rates in healthy environments.",
+      "Forms small, tree-like structures, often found in calm, clear waters."
+    ]
+  },
 ];
 
 const growthFormList = ["All", "Branching", "Digitate", "Massive", "Submassive"] 
@@ -175,7 +205,7 @@ export default function CoralLibrary() {
     return matchesSearch && matchesGrowth;
 });
 
-  const CoralDetailsPage = ({ coral }) => {
+ const CoralDetailsPage: React.FC<{ coral: Coral }> = ({ coral }) => {
     const [isGalleryModalVisible, setGalleryModalVisible] = useState(false);
 
     const toggleGalleryModal = () => {
@@ -241,8 +271,9 @@ export default function CoralLibrary() {
         onRequestClose={toggleGalleryModal}
       >
         <View style={styles.modalBackground}>
-          <ScrollView contentContainerStyle={styles.modalContent}>
-            <ScrollView horizontal={true} contentContainerStyle={styles.galleryContainer}>
+          <View style={styles.modalContent}>
+            <ThemedText type="font_md" style={styles.coralName}>Scroll for more photos!</ThemedText>
+            <ScrollView contentContainerStyle={styles.galleryContainer}>
               {coral.gallery.map((image, index) => (
                 <Image key={index} source={image} style={styles.galleryImage} />
               ))}
@@ -250,7 +281,7 @@ export default function CoralLibrary() {
             <TouchableOpacity onPress={toggleGalleryModal} style={styles.closeModalButton}>
               <Text style={styles.closeModalText}>Close</Text>
             </TouchableOpacity>
-          </ScrollView>
+          </View>
         </View>
       </Modal>
 
@@ -273,8 +304,6 @@ export default function CoralLibrary() {
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
-
-
           <View style={styles.filterButtons}>
           {growthFormList.map((growth) => (
             <TouchableOpacity
@@ -305,7 +334,7 @@ export default function CoralLibrary() {
                 <Text style={styles.coralName}>{item.name}</Text>
                 <TouchableOpacity
                   style={styles.learnMoreButton}
-                  onPress={() => setSelectedCoral(item)} // Show the selected coral details
+                  onPress={() => setSelectedCoral(item)}
                 >
                   <Text style={styles.learnMoreText}>Learn More</Text>
                 </TouchableOpacity>
@@ -472,20 +501,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: '#fff',
     width: '85%',
-    borderRadius: 12,
+    height: '85%', 
+    backgroundColor: '#fff',
+    borderRadius: 20,
     padding: 20,
     alignItems: 'center',
-  },
+  }, 
   galleryContainer: {
-    flexDirection: 'row',
-    paddingBottom: 20,
+    flexDirection: 'column',
+    flexWrap: 'wrap', 
+    justifyContent: 'center', 
   },
   galleryImage: {
-    width: 200,
-    height: 200,
+    width: 200,  
+    height: 150,
     marginHorizontal: 10,
+    marginVertical: 10,
     borderRadius: 8,
   },
   closeModalButton: {

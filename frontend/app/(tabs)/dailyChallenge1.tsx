@@ -1,45 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  Alert,
-} from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Alert, Dimensions, Modal } from 'react-native';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ThemedText from '@/components/text/ThemedText';
 import Colors from '@/constants/Colors';
 import { useRouter } from 'expo-router';
 
-// Sample coral data
-const router = useRouter()
-const coralData = [
-  {
-    id: '1',
-    name: 'Acropora',
-    image: require('@/assets/images/dailyChallenge1/acropora.png'),
-  },
-  {
-    id: '2',
-    name: 'Montipora',
-    image: require('@/assets/images/dailyChallenge1/montipora.png'),
-  },
-  {
-    id: '3',
-    name: 'Porites',
-    image: require('@/assets/images/dailyChallenge1/porites.png'),
-  },
-  {
-    id: '4',
-    name: 'Favia',
-    image: require('@/assets/images/dailyChallenge1/favia.png'),
-  },
+interface Coral {
+  id: string;
+  name: string;
+  image: any; 
+}
+
+const router = useRouter();
+const coralData: Coral[] = [
+  { id: '1', name: 'Acropora', image: require('@/assets/images/dailyChallenge1/acropora.png') },
+  { id: '2', name: 'Montipora', image: require('@/assets/images/dailyChallenge1/montipora.png') },
+  { id: '3', name: 'Porites', image: require('@/assets/images/dailyChallenge1/porites.png') },
+  { id: '4', name: 'Favia', image: require('@/assets/images/dailyChallenge1/favia.png') },
 ];
 
-// Create a shuffled deck with pairs: image and name
-function buildDeck(corals) {
+function buildDeck(corals: Coral[]) {
   const cards = corals.flatMap((coral) => [
     {
       id: `${coral.id}-img`,
@@ -57,22 +38,25 @@ function buildDeck(corals) {
   return shuffle(cards);
 }
 
-function shuffle(array: []) {
+function shuffle<T>(array: T[]): T[] {
   return array.sort(() => Math.random() - 0.5);
 }
 
 export default function CoralMemoryGame() {
-  const [deck, setDeck] = useState([]);
-  const [flippedCards, setFlippedCards] = useState([]);
-  const [matchedIds, setMatchedIds] = useState([]);
-  const [moves, setMoves] = useState(0);
+  const [deck, setDeck] = useState<any[]>([]);
+  const [flippedCards, setFlippedCards] = useState<any[]>([]);
+  const [matchedIds, setMatchedIds] = useState<string[]>([]);
+  const [moves, setMoves] = useState<number>(0);
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+
+  const windowWidth = Dimensions.get('window').width;
 
   useEffect(() => {
     const newDeck = buildDeck(coralData);
     setDeck(newDeck);
   }, []);
 
-  const handleCardPress = (card) => {
+  const handleCardPress = (card: any) => {
     if (
       flippedCards.length === 2 ||
       flippedCards.find((c) => c.id === card.id) ||
@@ -88,8 +72,7 @@ export default function CoralMemoryGame() {
       setMoves((prev) => prev + 1);
       const [first, second] = newFlipped;
 
-      const isMatch =
-        first.coralId === second.coralId && first.type !== second.type;
+      const isMatch = first.coralId === second.coralId && first.type !== second.type;
 
       if (isMatch) {
         setMatchedIds((prev) => [...prev, first.coralId]);
@@ -102,48 +85,13 @@ export default function CoralMemoryGame() {
 
   useEffect(() => {
     if (matchedIds.length === coralData.length) {
-      setTimeout(() => {
-        Alert.alert('You win!', `You matched all corals in ${moves} moves.`, [
-          {
-            text: 'Play Again',
-            onPress: () => {
-              setDeck(buildDeck(coralData));
-              setFlippedCards([]);
-              setMatchedIds([]);
-              setMoves(0);
-            },
-          },
-        ]);
-      }, 500);
+      setShowSuccessModal(true); // Show modal when all cards are matched
     }
   }, [matchedIds]);
 
-  useEffect(() => {
-  const totalCorals = coralData.length;
-  if (matchedIds.length === totalCorals) {
-    // Give time for the last cards to visually flip
-    setTimeout(() => {
-      Alert.alert('Challenge Completed', `You matched all corals in ${moves} moves.`, [
-        {
-          text: 'Play Again',
-          onPress: () => {
-            const newDeck = buildDeck(coralData);
-            setDeck(newDeck);
-            setFlippedCards([]);
-            setMatchedIds([]);
-            setMoves(0);
-          },
-        },
-      ]);
-    }, 700); // slightly longer to allow animations to finish
-  }
-}, [matchedIds, moves]);
-
-
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item }: { item: any }) => {
     const isFlipped =
-      flippedCards.find((c) => c.id === item.id) ||
-      matchedIds.includes(item.coralId);
+      flippedCards.find((c) => c.id === item.id) || matchedIds.includes(item.coralId);
 
     return (
       <TouchableOpacity
@@ -166,22 +114,42 @@ export default function CoralMemoryGame() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={()=> {router.push("/(tabs)/dailyChallenges")}}>
-              <Image
-              source={require("../../assets/images/back.png")}
-              style={styles.closeButton}
-              />
+      <TouchableOpacity onPress={() => { router.push("/(tabs)/dailyChallenges"); }}>
+        <Image source={require("../../assets/images/back.png")} style={styles.closeButton} />
       </TouchableOpacity>
-      <ThemedText type='font_lg' style={styles.header}>Coral Memory Game</ThemedText>
-      <ThemedText type='font_md' style={styles.subtext} >Match each coral's name with its photo!</ThemedText>
+      <ThemedText type="font_lg" style={styles.header}>Coral Memory Game</ThemedText>
+      <ThemedText type="font_md" style={styles.subtext}>Match each coral's name with its photo!</ThemedText>
       <ThemedText style={styles.moves}>Total Moves: {moves}</ThemedText>
       <FlatList
         data={deck}
-        numColumns={4}
+        numColumns={Math.floor(windowWidth / 100)} 
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.grid}
       />
+
+      {/* Success Modal */}
+      <Modal
+        visible={showSuccessModal}
+        animationType="fade"
+        transparent={true}
+        onRequestClose={() => setShowSuccessModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <ThemedText style={styles.modalTitle}>Challenge Completed!</ThemedText>
+            <ThemedText style={styles.modalMessage}>
+              You matched all the corals in {moves} moves!
+            </ThemedText>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => router.push('/(tabs)/dailyChallenges')}
+            >
+              <ThemedText style={styles.modalButtonText}>Return</ThemedText>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -190,9 +158,9 @@ const styles = StyleSheet.create({
   closeButton: {
     width: 20,
     height: 20,
-    marginBottom: 10, 
-    marginTop: 10
-  }, 
+    marginBottom: 10,
+    marginTop: 10,
+  },
   container: {
     flex: 1,
     paddingTop: 30,
@@ -250,5 +218,40 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 5,
     color: Colors.primary,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    width: '85%',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: Colors.primary,
+  },
+  modalMessage: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  modalButton: {
+    backgroundColor: Colors.primary,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

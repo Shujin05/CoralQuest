@@ -6,29 +6,36 @@ import { FlatList, StyleSheet, View, Text, TouchableOpacity } from 'react-native
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 
+interface Challenge {
+  id: string;
+  name: string;
+  points: number;
+  route: string;
+}
+
 // Hardcoded (for now)
-const Challenges = [
-  { id: '1', name: 'Coral Memory Game', points: 200, route:"/(tabs)/dailyChallenge1" },
-  { id: '2', name: 'Reef Detective', points: 150, route:"/(tabs)/dailyChallenge2"},
-  { id: '3', name: 'Coral Growth Tracking', points: 250, route: "/(tabs)/dailyChallenge3"},
+const Challenges: Challenge[] = [
+  { id: '1', name: 'Coral Memory Game', points: 200, route: "/(tabs)/dailyChallenge1" },
+  { id: '2', name: 'Reef Detective', points: 150, route: "/(tabs)/dailyChallenge2" },
+  { id: '3', name: 'Coral Growth Tracking', points: 250, route: "/(tabs)/dailyChallenge3" },
 ];
 
-const router = useRouter()
+const router = useRouter();
 
-export default function dailyChallenges() {
+const DailyChallenges: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={()=> {router.push("./")}}>
+      <TouchableOpacity onPress={() => { router.push("./"); }}>
         <Image
-        source={require("../../assets/images/back.png")}
-        style={styles.closeButton}
+          source={require("../../assets/images/back.png")}
+          style={styles.closeButton}
         />
       </TouchableOpacity>
       <ThemedText type="font_md" style={styles.header}>Daily Challenges</ThemedText>
       <FlatList
         data={Challenges}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
+        renderItem={({ item }: { item: Challenge }) => (
           <View style={styles.challengeItem}>
             <Text style={styles.challengeName}>{item.name}</Text>
             <View style={styles.challengeDetails}>
@@ -42,15 +49,17 @@ export default function dailyChallenges() {
       />
     </SafeAreaView>
   );
-}
+};
+
+export default DailyChallenges;
 
 const styles = StyleSheet.create({
   closeButton: {
     width: 20,
     height: 20,
-    marginBottom: 10, 
-    marginTop: 10
-  }, 
+    marginBottom: 10,
+    marginTop: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.lightBg,
@@ -88,7 +97,7 @@ const styles = StyleSheet.create({
   },
   challengePoints: {
     fontSize: 16,
-    color: '#4caf50', 
+    color: '#4caf50',
   },
   challengeTime: {
     fontSize: 16,

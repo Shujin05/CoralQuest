@@ -1,53 +1,58 @@
 import ThemedText from '@/components/text/ThemedText';
 import Colors from '@/constants/Colors';
-import React, { useState } from 'react';
-import { FlatList, StyleSheet, View, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { FlatList, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
 import supabase from '@/lib/supabaseClient';
 import { useAuth } from '@/context/authContext';
 
+interface LeaderboardUser {
+  id: string;
+  username: string;
+  points: number;
+}
+
 export default function LeaderboardScreen() {
   const medalEmoji = ['🥇', '🥈', '🥉'];
-  const [leaderboardData, setLeaderboardData] = useState([])
-  const {session, loading} = useAuth()
-  const router = useRouter(); 
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
+  const { session, loading } = useAuth(); 
+  const router = useRouter();
 
-useEffect(() => {
-  const fetchLeaderboardData = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('users')
-        .select('id, username, points')
-        .order('points', { ascending: false }) // Sort by descending order
-        .limit(5); // top 5 users
+  useEffect(() => {
+    const fetchLeaderboardData = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('users')
+          .select('id, username, points')
+          .order('points', { ascending: false }) 
+          .limit(5); // top 5 users
 
-      if (error) {
-        console.error('Error fetching leaderboard data:', error);
-        return;
+        if (error) {
+          console.error('Error fetching leaderboard data:', error);
+          return;
+        }
+
+        setLeaderboardData(data || []);
+        console.log(data);
+      } catch (error) {
+        console.error('Unexpected error:', error);
       }
+    };
 
-      setLeaderboardData(data);
-      console.log(data)
-    } catch (error) {
-      console.error('Unexpected error:', error);
-    }
-  };
-  fetchLeaderboardData();
-}, []);
+    fetchLeaderboardData();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-        <TouchableOpacity onPress={()=> {router.push("./")}}>
-            <Image
-            source={require("../../assets/images/back.png")}
-            style={styles.closeButton}
-            />
-        </TouchableOpacity>
-      <ThemedText type='font_md' style={styles.header}>Leaderboard</ThemedText>
+      <TouchableOpacity onPress={() => { router.push("./"); }}>
+        <Image
+          source={require("../../assets/images/back.png")}
+          style={styles.closeButton}
+        />
+      </TouchableOpacity>
+      <ThemedText type="font_md" style={styles.header}>Leaderboard</ThemedText>
       <FlatList
         data={leaderboardData}
         contentContainerStyle={styles.listContent}
@@ -72,8 +77,8 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginBottom: 10,
-    marginTop: 10
-  }, 
+    marginTop: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.lightBg,
@@ -85,7 +90,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     alignSelf: 'center',
-    color: Colors.primary, 
+    color: Colors.primary,
   },
   listContent: {
     paddingBottom: 20,
@@ -108,7 +113,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     width: 40,
     textAlign: 'center',
-    color: Colors.primary, 
+    color: Colors.primary,
   },
   userInfo: {
     marginLeft: 10,

@@ -61,7 +61,7 @@ export default function ReefDetectivePage() {
           <ThemedText type="font_md" style={styles.modalSubtitle}>
             Welcome, Detective. The ocean is calling.
           </ThemedText>
-          <ThemedText style={styles.modalText}t>🕵️ Your mission: dive into fragile reef ecosystems and uncover the threats endangering the reef. </ThemedText>
+          <ThemedText style={styles.modalText}>🕵️ Your mission: dive into fragile reef ecosystems and uncover the threats endangering the reef. </ThemedText>
           <Pressable style={styles.button} onPress={() => setShowIntro(false)}>
             <Text style={styles.buttonText}>Start Mission</Text>
           </Pressable>
