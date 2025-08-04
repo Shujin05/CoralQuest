@@ -32,12 +32,11 @@ const ThemedModal: React.FC<Props> = ({children, isVisible, onDismiss, style, on
 
 const styles = StyleSheet.create({
     modalContent: {
-        borderColor: colors.accent,
+        borderColor: colors.primary,
         borderRadius: 16,
         borderWidth: 6,
         padding: 8,
         backgroundColor: colors.bg,
-        
     }
 })
 

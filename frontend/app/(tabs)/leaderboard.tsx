@@ -35,7 +35,6 @@ export default function LeaderboardScreen() {
         }
 
         setLeaderboardData(data || []);
-        console.log(data);
       } catch (error) {
         console.error('Unexpected error:', error);
       }

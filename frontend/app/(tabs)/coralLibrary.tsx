@@ -194,9 +194,9 @@ const coralData = [
 const growthFormList = ["All", "Branching", "Digitate", "Massive", "Submassive"] 
 
 export default function CoralLibrary() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCoral, setSelectedCoral] = useState(null); 
-  const [selectedGrowth, setSelectedGrowth] = useState('All')
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedCoral, setSelectedCoral] = useState<Coral | null>(null); 
+  const [selectedGrowth, setSelectedGrowth] = useState<string>('All')
   const router = useRouter()
 
   const filteredCorals = coralData.filter((coral) => {

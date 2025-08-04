@@ -80,7 +80,7 @@ export default function ProfileScreen() {
     if (error) {
       Alert.alert('Logout failed', error.message);
     } else {
-      router.replace('/login'); // Navigate to login screen after logout
+      router.replace('/login'); 
     }
   }
 
@@ -135,7 +135,6 @@ export default function ProfileScreen() {
               <Text style={styles.modalTitle}>{selectedBadge.name}</Text>
                <View style={styles.badgeItem}>
                 <Image source={selectedBadge.icon} style={styles.badgeIcon} />
-                <Text style={styles.badgeName}>{selectedBadge.name}</Text>
               </View>
               <Text style={styles.modalDescription}>{selectedBadge.description}</Text>
               <TouchableOpacity onPress={closeBadgeModal} style={styles.closeModalButton}>

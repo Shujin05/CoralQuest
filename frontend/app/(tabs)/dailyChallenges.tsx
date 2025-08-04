@@ -1,10 +1,13 @@
 import ThemedText from '@/components/text/ThemedText';
 import Colors from '@/constants/Colors';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
+import supabase from '@/lib/supabaseClient';
+import { useAuth } from '@/context/authContext';
+import { Alert } from 'react-native';
 
 interface Challenge {
   id: string;
@@ -13,16 +16,47 @@ interface Challenge {
   route: string;
 }
 
-// Hardcoded (for now)
-const Challenges: Challenge[] = [
-  { id: '1', name: 'Coral Memory Game', points: 200, route: "/(tabs)/dailyChallenge1" },
-  { id: '2', name: 'Reef Detective', points: 150, route: "/(tabs)/dailyChallenge2" },
-  { id: '3', name: 'Coral Growth Tracking', points: 250, route: "/(tabs)/dailyChallenge3" },
-];
-
-const router = useRouter();
-
 const DailyChallenges: React.FC = () => {
+  const {session, loading} = useAuth(); 
+  const router = useRouter();
+  const [challenges, setChallenges] = useState<Challenge[] | null>(null)
+  
+  async function getChallenges(): Promise<Challenge[] | null> {
+    try {
+      const { data, error } = await supabase
+        .from('daily_challenge')
+        .select('*')
+        .limit(3); 
+
+      if (error) {
+        console.error('Error fetching challenges:', error);
+        Alert.alert('Error fetching challenges', error.message);
+        return null;
+      }
+
+      return data; 
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      return null;
+    }
+  }
+
+  useEffect(() => {
+      if (!session) {
+        return;
+      }
+  
+      const fetchAccessories = async () => {
+        const challenge_data = await getChallenges();
+        if (challenge_data) {
+          console.log(challenge_data);
+          setChallenges(challenge_data);
+        }
+      };
+  
+      fetchAccessories();
+    }, [session]); 
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={() => { router.push("./"); }}>
@@ -33,7 +67,7 @@ const DailyChallenges: React.FC = () => {
       </TouchableOpacity>
       <ThemedText type="font_md" style={styles.header}>Daily Challenges</ThemedText>
       <FlatList
-        data={Challenges}
+        data={challenges}
         keyExtractor={(item) => item.id}
         renderItem={({ item }: { item: Challenge }) => (
           <View style={styles.challengeItem}>

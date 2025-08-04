@@ -3,6 +3,8 @@ import Colors from '@/constants/Colors';
 import React, { useState } from 'react';
 import { View, Text, Modal, Pressable, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
 
 const coralScenarios = [
   {
@@ -51,8 +53,13 @@ export default function ReefDetectivePage() {
     }
   };
 
+  const router = useRouter()
+
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity onPress={() => { router.push("/(tabs)/dailyChallenges"); }}>
+        <Image source={require("../../assets/images/back.png")} style={styles.closeButton} />
+      </TouchableOpacity>
       {/* Intro Modal */}
       <Modal visible={showIntro} transparent animationType="slide">
         <View style={styles.modalContainer}>
@@ -112,6 +119,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: Colors.lightBg,
+  },
+  closeButton: {
+    width: 20,
+    height: 20,
+    marginBottom: 10,
+    marginTop: 10,
   },
   image: {
     width: '100%',

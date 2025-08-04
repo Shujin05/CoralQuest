@@ -33,13 +33,17 @@ export default function TabLayout() {
   return (
       <Stack>
           <Stack.Screen name="index" options={{headerShown: false}} />
+          <Stack.Screen name="profile" options={{headerShown: false}} />
           <Stack.Screen name="leaderboard" options={{headerShown: false}} />
           <Stack.Screen name="coralLibrary" options={{headerShown: false}} />
           <Stack.Screen name="dailyChallenges" options={{headerShown: false}} />
-          <Stack.Screen name="profile" options={{headerShown: false}} />
           <Stack.Screen name="dailyChallenge1" options={{ headerShown: false }} />
           <Stack.Screen name="dailyChallenge2" options={{ headerShown: false }} />
           <Stack.Screen name="dailyChallenge3" options={{ headerShown: false }} />
+          <Stack.Screen name="courses" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent10" options={{ headerShown: false }} />
+          <Stack.Screen name="coralGarden" options={{ headerShown: false }} />
+          <Stack.Screen name="shop" options={{ headerShown: false }} />
       </Stack>      
   );
 }

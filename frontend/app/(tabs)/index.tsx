@@ -133,6 +133,14 @@ export default function HomeScreen() {
           <ThemedText style={styles.smallerText}>day streak</ThemedText>
         </View>
       </View>
+      <View>
+          <TouchableOpacity onPress={() => router.push('/(tabs)/coralGarden')}>
+            <Image
+              source={require('../../assets/images/homepage/garden_button.png')}
+              style={styles.gardenButtonImage}
+            />
+          </TouchableOpacity>
+      </View>
       <View style={styles.buttonContainer}>
         <AnimatedButton label="Courses" 
         onPress={()=> router.push("/courses")}
@@ -218,7 +226,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     gap: 20,
-    paddingVertical: 20,
+    paddingVertical: 5,
   },
   statItem: {
     alignItems: 'center',
@@ -246,6 +254,12 @@ const styles = StyleSheet.create({
     borderRadius: 90,
     backgroundColor: Colors.primary,
     padding: 5,
+  },
+  gardenButtonImage: {
+    width: '90%',  
+    height: 120, 
+    resizeMode: 'contain', 
+    alignSelf:'center'
   },
   coralImage: {
     width: 120,
