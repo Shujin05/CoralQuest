@@ -55,12 +55,12 @@ const styles = StyleSheet.create({
     right: 0,
   },
   sky: {
-    backgroundColor: '#3d81a8', // Sky color (blue)
+    backgroundColor: '#3d81a8',
     width: '100%',
-    height: '100%', // Takes up the top 75% of the screen
+    height: '100%', 
     position: 'absolute',
     top: 0,
-    zIndex: 0, // Sky is the furthest back
+    zIndex: 0, 
   },
   sand: {
     backgroundColor: '#F1E0B6', 
