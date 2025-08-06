@@ -8,12 +8,19 @@ import { useEffect } from 'react';
 import { useAuth } from '@/context/authContext';
 import { Modal } from 'react-native';
 
+interface Badge {
+  id: number,
+  name: string, 
+  icon: any, 
+  description: string, 
+}
+
 export default function ProfileScreen() {
   const router = useRouter();
   const {session, loading} = useAuth()
-  const [username, setUsername ] = useState('') 
-  const [isBadgeModalVisible, setBadgeModalVisible] = useState(false);
-  const [selectedBadge, setSelectedBadge] = useState(null);
+  const [username, setUsername ] = useState<string>('') 
+  const [isBadgeModalVisible, setBadgeModalVisible] = useState<boolean>(false);
+  const [selectedBadge, setSelectedBadge] = useState<Badge| null>(null);
 
     async function getUsername(
     ) {
@@ -22,7 +29,7 @@ export default function ProfileScreen() {
           .from('users')
           .select('username')
           .eq('id', session?.user.id)
-          .single(); // Fetch only one record
+          .single(); 
 
         if (error) {
           console.error('Error fetching username:', error);
@@ -55,21 +62,20 @@ export default function ProfileScreen() {
     }, [session]); 
 
   const badges = [
-    { id: '1', name: 'Beginner Diver', icon: require('../../assets/images/badges/beginner_diver.png'), description: 'Welcome to the diving club! You completed your first coral identification challenge.'}, 
-    { id: '2', name: 'Species Specialist', icon: require('../../assets/images/badges/species_specialist.png'), description: 'For your deep expertise, you deserve this title. Awarded after completing all units of one species' },
-    { id: '3', name: 'One Week Warrior', icon: require('../../assets/images/badges/one_week_warrior.png'), description: 'Consistent is key! Kuddos for maintaining a streak of 7 days'},
-    { id: '4', name: 'Coral Champion', icon: require('../../assets/images/badges/coral_champion.png'), description: 'Awarded after completing all the daily challenges for 3 days consecutively'},
-    { id: '5', name: 'Garden Guardian', icon: require('../../assets/images/badges/garden_guardian.png'), description: 'Awarded after planting 10 corals in your coral garden.'},
-    { id: '6', name: 'Treasure Maniac', icon: require('../../assets/images/badges/treasure_maniac.png'), description: 'Awarded after purchasing 5 decorative elements.'},
-    { id: '7', name: 'Growth Form Guru', icon: require('../../assets/images/badges/growth_form_guru.png'), description: 'Awarded after identifying 10 different growth forms of corals.' }
+    { id: 1, name: 'Beginner Diver', icon: require('../../assets/images/badges/beginner_diver.png'), description: 'Welcome to the diving club! You completed your first coral identification challenge.'}, 
+    { id: 2, name: 'Species Specialist', icon: require('../../assets/images/badges/species_specialist.png'), description: 'For your deep expertise, you deserve this title. Awarded after completing all units of one species' },
+    { id: 3, name: 'One Week Warrior', icon: require('../../assets/images/badges/one_week_warrior.png'), description: 'Consistent is key! Kuddos for maintaining a streak of 7 days'},
+    { id: 4, name: 'Coral Champion', icon: require('../../assets/images/badges/coral_champion.png'), description: 'Awarded after completing all the daily challenges for 3 days consecutively'},
+    { id: 5, name: 'Garden Guardian', icon: require('../../assets/images/badges/garden_guardian.png'), description: 'Awarded after planting 10 corals in your coral garden.'},
+    { id: 6, name: 'Treasure Maniac', icon: require('../../assets/images/badges/treasure_maniac.png'), description: 'Awarded after purchasing 5 decorative elements.'},
+    { id: 7, name: 'Growth Form Guru', icon: require('../../assets/images/badges/growth_form_guru.png'), description: 'Awarded after identifying 10 different growth forms of corals.' }
   ];
 
-  const showBadgeModal = (badge) => {
+  const showBadgeModal = (badge: Badge) => {
     setSelectedBadge(badge);
     setBadgeModalVisible(true);
   };
 
-  // Function to close badge modal
   const closeBadgeModal = () => {
     setBadgeModalVisible(false);
     setSelectedBadge(null);
@@ -104,7 +110,6 @@ export default function ProfileScreen() {
         <Text style={styles.sectionTitle}>Achievements</Text>
         <FlatList
           data={badges}
-          keyExtractor={(item) => item.id}
           numColumns={3}
           contentContainerStyle={styles.badgeGrid}
           renderItem={({ item }) => (

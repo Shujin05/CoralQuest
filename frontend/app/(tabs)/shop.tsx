@@ -21,12 +21,8 @@ interface Accessory {
   imageFile: string;
 }
 
-interface OwnedAccessory {
-  id: number;
-  name: string;
-  type: string;
-  price: number;
-  imageFile: string;
+interface AccessoryData {
+  item_id: number
 }
 
 const Shop = () => {
@@ -36,12 +32,12 @@ const Shop = () => {
   const [error, setError] = useState<string>("");
   const [accessories, setAccessories] = useState<Accessory[]>([]);
   const [points, setpoints] = useState<number>(150); 
-  const [selectedCategory, setSelectedCategory] = useState<string>("animals");
+  const [selectedCategory, setSelectedCategory] = useState<string>("Corals");
   const [selectedItem, setSelectedItem] = useState<Accessory | null>(null); 
   const [showConfirm, setShowConfirm] = useState<boolean>(false); 
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
-  const [ownedAccessories, setOwnedAccessories] = useState<OwnedAccessory[]>([]);
+  const [ownedAccessories, setOwnedAccessories] = useState<Accessory[]>([]);
 
   const categories = [ "Corals", "Fish", "Invertebrates", "Mammals", "Reptiles"]
 
@@ -72,7 +68,6 @@ const Shop = () => {
       const fetchAccessories = async () => {
         const accessory_data = await getAccessories();
         if (accessory_data) {
-          console.log(accessory_data);
           setAccessories(accessory_data);
         }
       };
@@ -80,36 +75,128 @@ const Shop = () => {
       fetchAccessories();
     }, [session]); 
 
-  async function makeTransaction(itemId: number): Promise<string | null> {
-    try {
+  useEffect(() => {
+    if (!session?.user?.id) return;
+
+    const fetchPoints = async () => {
       const { data, error } = await supabase
-        .from('item_transaction')
-        .insert([
-          {
-            user_id: session.user.id,
-            item_id: itemId,
-          },
-        ])
-        .select() 
+        .from("users")
+        .select("points")
+        .eq("id", session.user.id)
+        .single();
+
+      if (data) {
+        setpoints(data.points);
+      }
+    };
+
+    fetchPoints();
+  }, [session]);
+
+  async function makeTransaction(itemId: number, itemPrice: number): Promise<string | null> {
+    try {
+      if (!session?.user?.id) {
+        Alert.alert("User not logged in");
+        return null;
+      }
+
+      const userId = session.user.id;
+
+      if (points < itemPrice) {
+        setFeedbackMessage("Insufficient Point Balance");
+        setShowFeedback(true);
+        return null;
+      }
+
+      const newPoints = points - itemPrice;
+
+      const { error: updateError } = await supabase
+        .from("users")
+        .update({ points: newPoints })
+        .eq("id", userId);
+
+      if (updateError) {
+        console.error("Error updating user points:", updateError);
+        Alert.alert("Error", "Failed to update your points. Please try again.");
+        return null;
+      }
+
+      const { data, error } = await supabase
+        .from("item_transaction")
+        .insert([{ user_id: userId, item_id: itemId }])
+        .select();
 
       if (error) {
-        console.error('Error inserting transaction:', error);
-        Alert.alert('Transaction Error', error.message);
+        console.error("Error inserting transaction:", error);
+        Alert.alert("Transaction Error", error.message);
         return null;
       }
 
       if (data && data.length > 0) {
-        return data[0].id; 
+        const updatedOwned = await fetchOwnedAccessories(userId);
+        setOwnedAccessories(updatedOwned);
+
+        setpoints(newPoints);
+        setFeedbackMessage("Item Purchased Successfully!")
+        setShowFeedback(true)
+
+        return data[0].id;
       } else {
-        console.warn('Transaction insert succeeded but no data returned');
+        console.warn("Transaction insert succeeded but no data returned");
         return null;
       }
+
     } catch (error) {
-      console.error('Unexpected error:', error);
-      Alert.alert('Unexpected Error', String(error));
+      console.error("Unexpected error:", error);
+      Alert.alert("Unexpected Error", String(error));
       return null;
     }
   }
+
+  async function fetchOwnedAccessories(userId: string): Promise<Accessory[]> {
+    try {
+      const { data: transactions, error: transactionError } = await supabase
+        .from("item_transaction")
+        .select("item_id")
+        .eq("user_id", userId);
+
+      if (transactionError) {
+        console.error("Error fetching item transactions:", transactionError);
+        return [];
+      }
+
+      const ownedItemIds = transactions.map((t: AccessoryData) => t.item_id);
+
+      if (ownedItemIds.length === 0) return [];
+
+      const { data: ownedItems, error: itemsError } = await supabase
+        .from("shop_items")
+        .select("*")
+        .in("id", ownedItemIds);
+
+      if (itemsError) {
+        console.error("Error fetching owned item details:", itemsError);
+        return [];
+      }
+
+      return ownedItems;
+
+    } catch (error) {
+      console.error("Unexpected error fetching owned accessories:", error);
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    if (!session?.user?.id) return;
+
+    const loadOwnedItems = async () => {
+      const owned = await fetchOwnedAccessories(session.user.id);
+      setOwnedAccessories(owned);
+    };
+
+    loadOwnedItems();
+  }, [session]);
 
   return (
     <SafeAreaView style={styles.uiContainer}>
@@ -192,7 +279,7 @@ const Shop = () => {
                   <TextButton style={styles.modalButton}>
                     <ThemedText type="font_md"  
                     style={styles.modalButtonText} 
-                    onPress={() => {makeTransaction(selectedItem.id); setShowConfirm(false)}}>Yes</ThemedText>
+                    onPress={() => {makeTransaction(selectedItem.id, selectedItem.price); setShowConfirm(false)}}>Yes</ThemedText>
                   </TextButton>
                   <TextButton style={styles.modalButton} onPress={() => { setShowConfirm(false); }}>
                     <ThemedText type="font_md" style={styles.modalButtonText}>No</ThemedText>
@@ -204,13 +291,13 @@ const Shop = () => {
         </ScrollView>
 
         {showFeedback && (
-          <ThemedModal isVisible={showFeedback} style={{ marginHorizontal: 16 }}>
+          <ThemedModal isVisible={showFeedback} style={{ marginHorizontal: 16 }} onDismiss={()=>{}}>
             <View style={{ padding: 16, alignItems: "center" }}>
-              <ThemedText type="font_md" style={{ marginBottom: 16, textAlign: "center" }}>
+              <ThemedText type="font_md" style={styles.modalHeader}>
                 {feedbackMessage}
               </ThemedText>
-              <TextButton onPress={() => setShowFeedback(false)}>
-                <ThemedText type="font_md">Return</ThemedText>
+              <TextButton style={styles.modalButton} onPress={() => setShowFeedback(false)}>
+                <ThemedText type="font_md" style={styles.modalButtonText}>Return</ThemedText>
               </TextButton>
             </View>
           </ThemedModal>
@@ -295,7 +382,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   categoryText: {
-    fontSize: 15,
+    fontSize: 12,
     color: colors.primary,
   },
   categoryTextSelected: {
@@ -315,8 +402,8 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   itemCard: {
-    width: 80,
-    height: 100,
+    width: 65,
+    height: 90,
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
@@ -329,20 +416,20 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   itemImage: {
-    width: 48,
-    height: 48,
+    width: 40,
+    height: 40,
     marginBottom: 6,
     alignSelf: 'center',
   },
   itemText: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: "font_md",
     color: colors.primary,
     fontWeight: "bold",
     textAlign: 'center',
   },
   itemPrice: {
-    fontSize: 12, 
+    fontSize: 10, 
     color: colors.accent,
     textAlign: 'center', 
   },
@@ -375,6 +462,7 @@ const styles = StyleSheet.create({
   modalHeader: {
     color: colors.primary, 
     fontSize: 25, 
+    textAlign: 'center',
   },
   modalText: {
     color: colors.accent,
