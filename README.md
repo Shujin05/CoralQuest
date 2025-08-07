@@ -33,8 +33,6 @@ To encourage consistent learning
 - Streak bonuses to encourage habit-building
 
 ### 4. Badge Achievements
-![Uploading image.png…]()
-
 Unlock milestones and collect badges as you progress.  
 - Celebrate learning achievements  
 - Motivate users with clear learning goals
@@ -58,7 +56,6 @@ Browse a collection of coral species commonly found in South East Asia
 - Consists of detailed information, photo identification tips and a gallery with images taken from varying angles
 
 <img width="433" height="722" alt="image" src="https://github.com/user-attachments/assets/b1e34769-0288-42df-b591-75e3f12c0df3" />
-
 
 ---
 
