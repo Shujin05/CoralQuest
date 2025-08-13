@@ -5,7 +5,6 @@ import CoralBackground from '@/components/CoralBackground';
 import { useRouter } from 'expo-router';
 import supabase from '@/lib/supabaseClient';
 import IconMap from '@/constants/Icon';
-import Colors from '@/constants/Colors';
 import ThemedText from '@/components/text/ThemedText';
 import { useAuth } from '@/context/authContext';
 import DraggableAccessory from '@/components/DraggableAccessory';

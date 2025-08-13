@@ -180,7 +180,6 @@ export default function CoralMemoryGame() {
         contentContainerStyle={styles.grid}
       />
 
-      {/* Success Modal */}
       <Modal
         visible={showSuccessModal}
         animationType="fade"

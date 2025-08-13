@@ -26,31 +26,31 @@ export default function CourseContent10() {
     router.push('/(tabs)/courses'); 
   };
 
-  const questions = [
+   const questions = [
     {
-      question: 'Corals are....',
-      answers: ['Animals', 'Plants'],
-      correctAnswer: 'Animals',
-    }, 
-    {
-      question: 'The building block of coral reefs is...',
-      answers: ['Tentacles', 'Polyp', "Nematocysts", "Algae"],
-      correctAnswer: 'Polyp',
-    }, 
-    {
-      question: 'Which of the following is not a function of a coral polyp?',
-      answers: ['To reproduce', 'To hunt for food', 'To clear away debris', 'To defend against predators'],
-      correctAnswer: 'To reproduce',
+      question: 'Where do zooxanthellae live?',
+      answers: ['Inside coral polyps', 'In the water column', 'On the ocean floor', 'Inside fish'],
+      correctAnswer: 'Inside coral polyps',
     },
     {
-      question: 'What are the tentacles of corals used for?',
-      answers: ['To produce oxygen', 'To capture plankton', 'To build coral reefs', 'To regulate water temperature'],
-      correctAnswer: 'To capture plankton',
+      question: 'What process do zooxanthellae use to provide energy to corals?',
+      answers: ['Respiration', 'Digestion', 'Photosynthesis', 'Fermentation'],
+      correctAnswer: 'Photosynthesis',
     },
     {
-      question: 'What is the role of nematocysts in corals?',
-      answers: ['To help with digestion', 'To paralyse prey', 'To secrete calcium carbonate', 'To protect the coral'],
-      correctAnswer: 'To paralyse prey',
+      question: 'What are the products from photsynthesis?',
+      answers: ['Oxygen', 'Minerals', 'Sugars and Proteins', 'Nitrogen'],
+      correctAnswer: 'Sugars and Proteins',
+    },
+    {
+      question: 'What is the benefit for corals in the relationship with zooxanthellae?',
+      answers: ['Protection', 'Nutrients for growth', 'Increased sunlight', 'Increased reproduction'],
+      correctAnswer: 'Nutrients for growth',
+    },
+    {
+      question: 'What do corals provide to zooxanthellae?',
+      answers: ['Shelter and protection', 'Oxygen', 'Carbon dioxide', 'Food'],
+      correctAnswer: 'Shelter and protection',
     },
   ];
 
@@ -59,44 +59,47 @@ export default function CourseContent10() {
       <TouchableOpacity onPress={() => { router.push("/(tabs)/courses"); }}>
               <Image source={require("../../assets/images/back.png")} style={styles.closeButton} />
       </TouchableOpacity>
-      <ThemedText type="font_md" style={styles.heading}>What is a Coral?</ThemedText>
+      <ThemedText type="font_md" style={styles.heading}>Corals & Zooxanthellae</ThemedText>
       
       <View style={styles.contentContainer}>
 
         <View style={styles.keyPointsList}>
           <View style={styles.keyPoint}>
-            <Text style={styles.keyPointText}>• Corals are <b>invetebrate animals</b>, not plants</Text>
-          </View>
-          <View style={styles.keyPoint}>
-            <Text style={styles.keyPointText}>• Corals are made up of <b>tiny polyps</b> that cluster together to form coral colonies</Text>
+            <Text style={styles.keyPointText}>• Zooxanthellae live inside <b>coral polyps</b></Text>
+        </View>
+        <View style={styles.keyPoint}>
 
-          <Image
-            source={require("../../assets/images/courses/course10/coral_polyp.webp")}
+        <Image
+            source={require("../../assets/images/courses/course11/diagram.png")}
             style={styles.image}
             resizeMode="contain"
-          />
+        />
 
-          </View>
-          <View style={styles.keyPoint}>
-            <Text style={styles.keyPointText}>• The polyp's mouth is surrounded by a <b>circle of tentacles</b>, which help to gather food</Text>
-          </View>
-          <View style={styles.keyPoint}>
-            <Text style={styles.keyPointText}>• The tentacles perform several essential functions:</Text>
-          </View>
-          <View style={styles.keyPointIndented}>
-         <View style={styles.keyPoint}>
-           <Text style={styles.keyPointText}>• <b>defence</b>: protects the coral from predators</Text>
-         </View>
-         <View style={styles.keyPoint}>
-           <Text style={styles.keyPointText}> • <b>hunt for food</b>: helps corals capture plankton and small marine organisms</Text>
-         </View>
-         <View style={styles.keyPoint}>
-           <Text style={styles.keyPointText}>• <b>clear away debris</b></Text>
-         </View>
         </View>
-          <View style={styles.keyPoint}>
-            <Text style={styles.keyPointText}>• Each tentacle is armed with <b>nematocysts</b>, stinging cells that paralyse prey</Text>
-          </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>•Corals and zooxanthellae have a <b>mutualistic relationship</b>, where both parties benefit</Text>
+        </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• The polyp's mouth is surrounded by a <b>circle of tentacles</b>, which help to gather food</Text>
+        </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• Zooxanthellae undergoes <b>photosynthesis</b> to supply corals with <b>sugars and protein building blocks</b></Text>
+        </View>
+                <View style={styles.keyPoint}>
+
+        <Image
+            source={require("../../assets/images/courses/course11/photosynthesis.png")}
+            style={styles.image}
+            resizeMode="contain"
+        />
+
+        </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• Corals use these products to build their <b>calcium carbonate skeletons</b></Text>
+        </View>
+        <View style={styles.keyPoint}>
+           <Text style={styles.keyPointText}>• In return, Zooxanthellae receive <b>protection</b> within the coral</Text>
+        </View>
         </View>
         <ThemedText type="font_md" style={styles.quizText}>🚀 Test Your Knowledge  </ThemedText>
         <QuizTemplate questions={questions} onQuizCompleted={handleQuizCompletion} />
@@ -171,7 +174,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 350,
+    height: 200,
     marginBottom: 20,
     marginTop: 20, 
     borderRadius: 10,

@@ -28,29 +28,29 @@ export default function CourseContent10() {
 
   const questions = [
     {
-      question: 'Corals are....',
-      answers: ['Animals', 'Plants'],
-      correctAnswer: 'Animals',
-    }, 
-    {
-      question: 'The building block of coral reefs is...',
-      answers: ['Tentacles', 'Polyp', "Nematocysts", "Algae"],
-      correctAnswer: 'Polyp',
-    }, 
-    {
-      question: 'Which of the following is not a function of a coral polyp?',
-      answers: ['To reproduce', 'To hunt for food', 'To clear away debris', 'To defend against predators'],
-      correctAnswer: 'To reproduce',
+      question: 'Corals belong to which phylum?',
+      answers: ['Cnidaria', 'Mollusca', 'Annelida', 'Arthropoda'],
+      correctAnswer: 'Cnidaria',
     },
     {
-      question: 'What are the tentacles of corals used for?',
-      answers: ['To produce oxygen', 'To capture plankton', 'To build coral reefs', 'To regulate water temperature'],
-      correctAnswer: 'To capture plankton',
+      question: 'Which class of corals is known for reef-building abilities?',
+      answers: ['Class Anthozoa', 'Class Hydrozoa', 'Class Scyphozoa', 'Class Cubozoa'],
+      correctAnswer: 'Class Anthozoa',
     },
     {
-      question: 'What is the role of nematocysts in corals?',
-      answers: ['To help with digestion', 'To paralyse prey', 'To secrete calcium carbonate', 'To protect the coral'],
-      correctAnswer: 'To paralyse prey',
+      question: 'Which order includes hard corals?',
+      answers: ['Order Scleractinia', 'Order Actiniaria', 'Order Alcyonacea', 'Order Hydrozoa'],
+      correctAnswer: 'Order Scleractinia',
+    },
+    {
+      question: 'What is a key characteristic of corals in the class Hydrozoa?',
+      answers: ['They do not build reefs', 'They form hard skeletons', 'They are solitary', 'They are soft corals'],
+      correctAnswer: 'They do not build reefs',
+    },
+    {
+      question: 'What type of corals belong to Order Actiniaria?',
+      answers: ['Solitary corals resembling anemones', 'Soft corals', 'Reef-building corals', 'Colonial corals'],
+      correctAnswer: 'Solitary corals resembling anemones',
     },
   ];
 
@@ -59,44 +59,55 @@ export default function CourseContent10() {
       <TouchableOpacity onPress={() => { router.push("/(tabs)/courses"); }}>
               <Image source={require("../../assets/images/back.png")} style={styles.closeButton} />
       </TouchableOpacity>
-      <ThemedText type="font_md" style={styles.heading}>What is a Coral?</ThemedText>
+      <ThemedText type="font_md" style={styles.heading}>Coral Taxonomy</ThemedText>
       
       <View style={styles.contentContainer}>
-
+        <ThemedText type="font_md" style={styles.subHeading}>Phylum</ThemedText>
         <View style={styles.keyPointsList}>
           <View style={styles.keyPoint}>
-            <Text style={styles.keyPointText}>• Corals are <b>invetebrate animals</b>, not plants</Text>
-          </View>
-          <View style={styles.keyPoint}>
-            <Text style={styles.keyPointText}>• Corals are made up of <b>tiny polyps</b> that cluster together to form coral colonies</Text>
+            <Text style={styles.keyPointText}>• Corals are classified under the phylum <b><i>Cnidaria</i></b></Text>
+        </View>
+        <View style={styles.keyPoint}>
 
-          <Image
-            source={require("../../assets/images/courses/course10/coral_polyp.webp")}
+        <Image
+            source={require("../../assets/images/courses/course12/classification.png")}
             style={styles.image}
             resizeMode="contain"
-          />
+        />
 
-          </View>
-          <View style={styles.keyPoint}>
-            <Text style={styles.keyPointText}>• The polyp's mouth is surrounded by a <b>circle of tentacles</b>, which help to gather food</Text>
-          </View>
-          <View style={styles.keyPoint}>
-            <Text style={styles.keyPointText}>• The tentacles perform several essential functions:</Text>
-          </View>
-          <View style={styles.keyPointIndented}>
-         <View style={styles.keyPoint}>
-           <Text style={styles.keyPointText}>• <b>defence</b>: protects the coral from predators</Text>
-         </View>
-         <View style={styles.keyPoint}>
-           <Text style={styles.keyPointText}> • <b>hunt for food</b>: helps corals capture plankton and small marine organisms</Text>
-         </View>
-         <View style={styles.keyPoint}>
-           <Text style={styles.keyPointText}>• <b>clear away debris</b></Text>
-         </View>
         </View>
-          <View style={styles.keyPoint}>
-            <Text style={styles.keyPointText}>• Each tentacle is armed with <b>nematocysts</b>, stinging cells that paralyse prey</Text>
-          </View>
+        <ThemedText type="font_md" style={styles.subHeading}>Class</ThemedText>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>•Corals are mainly divided into two classes:</Text>
+        </View>
+        <View style={styles.keyPointIndented}>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• <i><b>Class Anthozoa:</b></i> includes most reef-building corals, characterised by their ability to produce hard skeletons</Text>
+        </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• <i><b>Class Hydrozoa:</b></i> Includes some corals that don’t build reefs</Text>
+        </View>
+
+        </View>
+
+        <ThemedText type="font_md" style={styles.subHeading}>Order</ThemedText>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• Corals are further categorized into several orders. The more important ones include:</Text>
+        </View>
+        <View style={styles.keyPointIndented}>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• <i><b>Order Actiniaria:</b></i> solitary corals that resemble anemones</Text>
+        </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• <i><b>Order Alcyonacea:</b></i> soft corals</Text>
+        </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• <i><b>Order Scleractinia:</b></i> hard corals</Text>
+        </View>
+        </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• You will learn more about coral families and genus in subsequent chapters</Text>
+        </View>
         </View>
         <ThemedText type="font_md" style={styles.quizText}>🚀 Test Your Knowledge  </ThemedText>
         <QuizTemplate questions={questions} onQuizCompleted={handleQuizCompletion} />
@@ -171,7 +182,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 350,
+    height: 200,
     marginBottom: 20,
     marginTop: 20, 
     borderRadius: 10,

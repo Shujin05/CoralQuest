@@ -42,6 +42,10 @@ export default function TabLayout() {
           <Stack.Screen name="dailyChallenge3" options={{ headerShown: false }} />
           <Stack.Screen name="courses" options={{ headerShown: false }} />
           <Stack.Screen name="courseContent10" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent11" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent12" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent13" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent14" options={{ headerShown: false }} />
           <Stack.Screen name="coralGarden" options={{ headerShown: false }} />
           <Stack.Screen name="shop" options={{ headerShown: false }} />
       </Stack>      
