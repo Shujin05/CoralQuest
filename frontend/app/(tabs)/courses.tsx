@@ -20,7 +20,7 @@ const courses: Course[] = [
       'Corals and Zooxanthellae',
       'Coral Taxonomy', 
       'Soft vs Hard Corals',
-      'Threats and Diseases',
+      'Threats to Coral Reefs',
     ],
   },
   {
@@ -29,12 +29,16 @@ const courses: Course[] = [
     units: [
       'Introduction to Growth Forms',
       'Branching Corals',
-      'Submassive Corals',
-      'Massive Corals',
+      'Columnar Corals',
+      'Corymbose Corals',
+      'Digitate Corals',
       'Encrusting Corals',
       'Foliose Corals',
+      'Laminar Corals',
+      'Massive Corals',
       'Tabulate Corals',
       'Solitary Corals',
+      'Submassive Corals',
     ],
   },
   {
