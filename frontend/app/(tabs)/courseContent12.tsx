@@ -8,7 +8,7 @@ import QuizTemplate from '@/components/QuizTemplate';
 import { useState } from 'react';
 import { Modal } from 'react-native';
 
-export default function CourseContent10() {
+export default function CourseContent12() {
   const router = useRouter();
   const [score, setScore] = useState<number | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
