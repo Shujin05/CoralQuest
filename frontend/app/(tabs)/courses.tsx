@@ -39,6 +39,8 @@ const courses: Course[] = [
       'Tabulate Corals',
       'Solitary Corals',
       'Submassive Corals',
+      'Identification Quiz 1',
+      'Identification Quiz 2',
     ],
   },
   {
