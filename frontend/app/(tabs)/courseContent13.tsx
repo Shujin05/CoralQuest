@@ -84,11 +84,36 @@ export default function CourseContent13() {
       <TouchableOpacity onPress={() => { router.push("/(tabs)/courses"); }}>
               <Image source={require("../../assets/images/back.png")} style={styles.closeButton} />
       </TouchableOpacity>
-      <ThemedText type="font_md" style={styles.heading}>Soft vs Hard Corals</ThemedText>
+      <ThemedText type="font_md" style={styles.heading}>Non-hard vs Hard Corals</ThemedText>
       
       <View style={styles.contentContainer}>
-        <ThemedText type="font_md" style={styles.subHeading}>Soft Corals</ThemedText>
+        <ThemedText type="font_md" style={styles.subHeading}>Non-hard Corals</ThemedText>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• further separated into: </Text>
+        </View>
 
+        <View style={styles.keyPointIndented}>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• <b>Soft Corals</b></Text>
+        </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• <b>Zoanthid</b></Text>
+        </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• <b>Sponge</b></Text>
+        </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• <b>Algae</b></Text>
+        </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• <b>Abiotic</b></Text>
+        </View>
+        <View style={styles.keyPoint}>
+            <Text style={styles.keyPointText}>• <b>Others</b></Text>
+        </View>
+        </View>
+
+        <ThemedText type="font_md" style={styles.subHeading}>Soft Corals</ThemedText>
         <Image
             source={require("../../assets/images/courses/course13/soft_corals.png")}
             style={styles.image}

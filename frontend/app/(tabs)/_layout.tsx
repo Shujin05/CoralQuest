@@ -51,6 +51,20 @@ export default function TabLayout() {
           <Stack.Screen name="courseContent22" options={{ headerShown: false }} />
           <Stack.Screen name="courseContent23" options={{ headerShown: false }} />
           <Stack.Screen name="courseContent24" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent25" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent26" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent27" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent28" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent29" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent210" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent30" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent31" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent32" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent33" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent34" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent35" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent36" options={{ headerShown: false }} />
+          <Stack.Screen name="courseContent37" options={{ headerShown: false }} />
           <Stack.Screen name="coralGarden" options={{ headerShown: false }} />
           <Stack.Screen name="shop" options={{ headerShown: false }} />
       </Stack>      

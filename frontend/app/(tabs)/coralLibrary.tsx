@@ -57,141 +57,143 @@ const coralData = [
     id: '3',
     name: 'Porites Lobata',
     common_name: 'Lobed Porites',
-    main_image: require('../../assets/images/logo.png'),
+    main_image: require('../../assets/images/coral_library/porites_lobata/main.png'),
     genus: 'Porites',
     growth_form: "Submassive",
-    regions: ["Indonesia", "Philippines", "Malaysia", "Thailand", "Australia"],
-    habitat: "Typically found in reef slopes and lagoons.",
-    id_tips: ["Grey to yellow-brown", "Smooth surface, usually compact"],
-    id_tips_images: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    gallery: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
+    regions: ["Indonesia", "Philippines", "Malaysia", "Thailand"],
+    habitat: "Typically found in back reef margins, lagoons and some fringing reefs",
+    id_tips: ["Grey to yellow-brown", "Smooth surface, usually compact, hemispherical or helmet-shaped"],
+    id_tips_images: [require('../../assets/images/coral_library/porites_lobata/id_tip1.png'), require('../../assets/images/coral_library/porites_lobata/id_tip2.png')],
+    gallery: [require('../../assets/images/coral_library/porites_lobata/gallery1.png'), require('../../assets/images/coral_library/porites_lobata/gallery2.png'), require('../../assets/images/coral_library/porites_lobata/gallery3.png')],
     fun_facts: [
-      "One of the most resilient coral species to ocean warming.",
-      "Forms large, mound-like colonies that provide important habitat for marine species."
+      "Commonly form ‘micro-atolls’ in intertidal habitats",
+      "One of the most common porites"
     ]
   },
   {
     id: '4',
     name: 'Seriatopora Hystrix',
     common_name: 'Birdsnest Coral',
-    main_image: require('../../assets/images/logo.png'),
+    main_image: require('../../assets/images/coral_library/seriatopora_hystrix/main.png'),
     genus: 'Seriatopora',
     growth_form: "Branching",
-    regions: ["Indonesia", "Malaysia", "Philippines", "Vietnam", "Australia"],
-    habitat: "Shallow, clear waters, often in reef crests and upper reef slopes.",
-    id_tips: ["Thin, finger-like branches", "Vibrant color variations, from light yellow to green"],
-    id_tips_images: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    gallery: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
+    regions: ["Indonesia", "Malaysia", "Philippines", "Vietnam"],
+    habitat: "Shallow reef environments, especially intertidal reef flats.",
+    id_tips: ["Thin, finger-like branches", "Pink, less commonly cream, blue or green"],
+    id_tips_images: [require('../../assets/images/coral_library/seriatopora_hystrix/id_tip1.png'), require('../../assets/images/coral_library/seriatopora_hystrix/id_tip2.png')],
+    gallery: [require('../../assets/images/coral_library/seriatopora_hystrix/gallery1.png'), require('../../assets/images/coral_library/seriatopora_hystrix/gallery2.png'), require('../../assets/images/coral_library/seriatopora_hystrix/gallery3.png')],
     fun_facts: [
       "Recognized for its delicate, bushy branching form resembling a bird’s nest.",
-      "Grows quickly, forming dense colonies that are often a major part of reef ecosystems."
+      "Colonies with short thick branches are normally found in habitats exposed to wave action."
     ]
   },
   {
     id: '5',
-    name: 'Euphyllia Glabrescens',
-    common_name: 'Torch Coral',
-    main_image: require('../../assets/images/logo.png'),
-    genus: 'Euphyllia',
-    growth_form: "Branching",
-    regions: ["Malaysia", "Indonesia", "Philippines", "Papua New Guinea"],
-    habitat: "Usually found in sheltered lagoons or reef flats.",
-    id_tips: ["Bright green to brown", "Long, flowing tentacles"],
-    id_tips_images: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    gallery: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
+    name: 'Favia Speciosa',
+    common_name: 'Brain Coral, Pinneaple Coral, Moon Coral',
+    main_image: require('../../assets/images/coral_library/favia_speciosa/main.png'),
+    genus: 'Favia',
+    growth_form: "Massive",
+    regions: ["Indonesia", "Thailand", "Philippines"],
+    habitat: "Commonly found in deeper reef environments.",
+    id_tips: ["Pale grey, green or brown, usually with calices of contrasting colours", "Corallites are circular, giving distinctive, brain-like ridges on the surface"],
+    id_tips_images: [require('../../assets/images/coral_library/favia_speciosa/id_tip1.png'), require('../../assets/images/coral_library/favia_speciosa/id_tip2.png')],
+    gallery: [require('../../assets/images/coral_library/favia_speciosa/gallery1.png'), require('../../assets/images/coral_library/favia_speciosa/gallery2.png'), require('../../assets/images/coral_library/favia_speciosa/gallery3.png')],
     fun_facts: [
-      "Known for its bright, glowing tentacles that resemble flames.",
-      "Requires strong water movement and light to thrive."
+      "Corallites are closely compacted in shallow water, and more widely spaced in deeper waters."
     ]
   },
   {
     id: '6',
-    name: 'Favia Speciosa',
-    common_name: 'Brain Coral',
-    main_image: require('../../assets/images/logo.png'),
-    genus: 'Favia',
-    growth_form: "Massive",
-    regions: ["Indonesia", "Thailand", "Philippines", "Australia"],
-    habitat: "Commonly found in deeper reef environments.",
-    id_tips: ["Usually brown to green", "Distinctive, brain-like ridges on the surface"],
-    id_tips_images: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    gallery: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    fun_facts: [
-      "Has a hard, thick skeleton that is easily recognizable by its maze-like structure.",
-      "Commonly found in deeper waters and often associated with high biodiversity."
-    ]
-  },
-  {
-    id: '7',
-    name: 'Acropora Palmata',
-    common_name: 'Elkhorn Coral',
-    main_image: require('../../assets/images/logo.png'),
-    genus: 'Acropora',
-    growth_form: "Branching",
-    regions: ["Caribbean Sea", "Mexico", "Cuba", "Honduras"],
-    habitat: "Shallow, warm waters, typically on reef crests and reef slopes.",
-    id_tips: ["Yellow to brown color", "Branches shaped like large elk antlers"],
-    id_tips_images: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    gallery: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    fun_facts: [
-      "Critical for building and maintaining reef structures in the Caribbean.",
-      "Listed as endangered due to threats like coral bleaching and disease."
-    ]
-  },
-  {
-    id: '8',
-    name: 'Stylophora Pistillata',
-    common_name: 'Tasselled Coral',
-    main_image: require('../../assets/images/logo.png'),
-    genus: 'Stylophora',
-    growth_form: "Branching",
-    regions: ["Indian Ocean", "Red Sea", "Southeast Asia"],
-    habitat: "Shallow reef areas, often found in both lagoon and reef slope environments.",
-    id_tips: ["Bright yellow to greenish color", "Polyps are distinctly visible and often look 'tasselled'"],
-    id_tips_images: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    gallery: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    fun_facts: [
-      "Fast-growing and can form dense, bush-like colonies.",
-      "Often serves as a habitat for various small fish species."
-    ]
-  },
-  {
-    id: '9',
-    name: 'Cyphastrea Ocellina',
-    common_name: 'Eyed Coral',
-    main_image: require('../../assets/images/logo.png'),
-    genus: 'Cyphastrea',
-    growth_form: "Massive",
-    regions: ["Indonesia", "Papua New Guinea", "Solomon Islands", "Australia"],
-    habitat: "Found in reef slopes and lower parts of the reef crest.",
-    id_tips: ["Blue to green color", "Distinctive eyespots on the surface"],
-    id_tips_images: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    gallery: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    fun_facts: [
-      "The distinctive 'eyes' on its surface make it one of the most unique corals.",
-      "Often thrives in deeper reef zones where light penetration is lower."
-    ]
-  }, 
-  {
-    id: '10',
     name: 'Montipora Digitata',
     common_name: 'Digitata Coral',
-    main_image: require('../../assets/images/logo.png'),
+    main_image: require('../../assets/images/coral_library/montipora_digitata/main.png'),
     genus: 'Montipora',
     growth_form: "Digitate",
-    regions: ["Malaysia", "Indonesia", "Australia", "Fiji", "Solomon Islands", "Palau"],
+    regions: ["Malaysia", "Indonesia"],
     habitat: "Found in shallow, reef-associated environments, often on exposed reef flats.",
-    id_tips: ["Purple or pink with yellow tips", "Large polyp size"],
-    id_tips_images: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
-    gallery: [require('../../assets/images/logo.png'), require('../../assets/images/logo.png')],
+    id_tips: ["Pale cream or brown, sometimes pink or blue.", "Upright branches"],
+    id_tips_images: [require('../../assets/images/coral_library/montipora_digitata/id_tip1.png'), require('../../assets/images/coral_library/montipora_digitata/id_tip2.png')],
+    gallery: [require('../../assets/images/coral_library/montipora_digitata/gallery2.png'), require('../../assets/images/coral_library/montipora_digitata/gallery3.png'), require('../../assets/images/coral_library/montipora_digitata/gallery4.png'), require('../../assets/images/coral_library/montipora_digitata/gallery1.png')],
     fun_facts: [
-      "Known for its fast growth rates in healthy environments.",
-      "Forms small, tree-like structures, often found in calm, clear waters."
+      "Colonies in shallow waters often have flattened branches.",
+      "May be a dominant species of shallow mud flats."
     ]
   },
+  {
+  id: '7',
+  name: 'Lobophyllia Corymbosa',
+  common_name: 'Brain Coral',
+  main_image: require('../../assets/images/coral_library/lobophyllia_corymbosa/main.png'),
+  genus: 'Lobophyllia',
+  growth_form: "Corymbose",
+  regions: ["Indonesia", "Malaysia", "Philippines", "Australia"],
+  habitat: "Commonly found in reef slopes and deeper reef environments.",
+  id_tips: ["Grey to green, with thick, rounded ridges", "Forms large, bulbous colonies"],
+  id_tips_images: [
+    require('../../assets/images/coral_library/lobophyllia_corymbosa/id_tip1.png'),
+    require('../../assets/images/coral_library/lobophyllia_corymbosa/id_tip2.png')
+  ],
+  gallery: [
+    require('../../assets/images/coral_library/lobophyllia_corymbosa/gallery1.png'),
+    require('../../assets/images/coral_library/lobophyllia_corymbosa/gallery2.png'),
+    require('../../assets/images/coral_library/lobophyllia_corymbosa/gallery3.png')
+  ],
+  fun_facts: [
+    "Sensitive to changes in water temperature and quality."
+  ]
+},
+{
+  id: '8',
+  name: 'Montipora Aquituberculata',
+  common_name: 'Tuberculate Montipora',
+  main_image: require('../../assets/images/coral_library/montipora_aquituberculata/main.png'),
+  genus: 'Montipora',
+  growth_form: "Encrusting",
+  regions: ["Indonesia", "Philippines", "Malaysia"],
+  habitat: "Commonly found in shallow, reef-associated environments, often on reef flats and slopes.",
+  id_tips: ["Brown to green color", "Tuberculate surface with raised bumps"],
+  id_tips_images: [
+    require('../../assets/images/coral_library/montipora_aquituberculata/id_tip1.png'),
+    require('../../assets/images/coral_library/montipora_aquituberculata/id_tip2.png')
+  ],
+  gallery: [
+    require('../../assets/images/coral_library/montipora_aquituberculata/gallery1.png'),
+    require('../../assets/images/coral_library/montipora_aquituberculata/gallery2.png'),
+    require('../../assets/images/coral_library/montipora_aquituberculata/gallery3.png')
+  ],
+  fun_facts: [
+    "This species exhibits a distinctive tuberculate surface with raised bumps.",
+    "Can grow into large encrusting colonies that cover large areas of substrate."
+  ]
+},
+{
+  id: '9',
+  name: 'Leptoseris Foliosa',
+  common_name: 'Leaf Coral',
+  main_image: require('../../assets/images/coral_library/leptoseris_foliosa/main.png'),
+  genus: 'Leptoseris',
+  growth_form: "Foliose",
+  regions: ["Indonesia", "Philippines", "Australia", "Papua New Guinea"],
+  habitat: "Found in shallow to deep waters, typically on reef slopes or deeper areas of the reef.",
+  id_tips: ["Flat, leathery plates", "Green to brown coloration, often with white edges"],
+  id_tips_images: [
+    require('../../assets/images/coral_library/leptoseris_foliosa/id_tip1.png'),
+    require('../../assets/images/coral_library/leptoseris_foliosa/id_tip2.png')
+  ],
+  gallery: [
+    require('../../assets/images/coral_library/leptoseris_foliosa/gallery1.png'),
+    require('../../assets/images/coral_library/leptoseris_foliosa/gallery2.png'),
+    require('../../assets/images/coral_library/leptoseris_foliosa/gallery3.png')
+  ],
+  fun_facts: [
+    "Distinctly flat, leathery plates with irregular shapes.",
+    "Thrives in deep water where light is low, giving it a unique leaf-like appearance."
+  ]
+  }
 ];
 
-const growthFormList = ["All", "Branching", "Digitate", "Massive", "Submassive"] 
+const growthFormList = ["All", "Branching", "Corymbose", "Digitate", "Encrusting", "Foliose", "Massive", "Submassive"] 
 
 export default function CoralLibrary() {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -225,7 +227,7 @@ export default function CoralLibrary() {
 
       {/* Coral Name and Common Name */}
       <View style={styles.textContainer}>
-        <ThemedText type="font_lg" style={styles.name}>{coral.name}</ThemedText>
+        <ThemedText type="font_lg" style={styles.name}><i>{coral.name}</i></ThemedText>
         <ThemedText type="font_lg" style={styles.commonName}>({coral.common_name})</ThemedText>
       </View>
 
@@ -331,7 +333,8 @@ export default function CoralLibrary() {
             renderItem={({ item }) => (
               <View style={styles.card}>
                 <Image source={item.main_image} style={styles.coralImage} />
-                <Text style={styles.coralName}>{item.name}</Text>
+                <Text style={styles.coralName}><i>{item.name}</i></Text>
+                <Text style={styles.coralCommonName}>{item.common_name}</Text>
                 <TouchableOpacity
                   style={styles.learnMoreButton}
                   onPress={() => setSelectedCoral(item)}
@@ -419,6 +422,10 @@ const styles = StyleSheet.create({
   },
   commonName: {
     fontSize: 18,
+    color: '#555',
+  },
+  coralCommonName:{
+    fontSize: 11,
     color: '#555',
   },
   infoContainer: {

@@ -8,7 +8,7 @@ import { Modal } from 'react-native';
 import QuizTemplate from '@/components/QuizTemplate';
 import { useState } from 'react';
 
-export default function CourseContent23() {
+export default function CourseContent24() {
   const router = useRouter();
   const [score, setScore] = useState<number | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -85,7 +85,7 @@ export default function CourseContent23() {
       <View style={styles.keyPointsList}>
         <ThemedText type="font_md" style={styles.subHeading}>🔎 Identification Tips: </ThemedText>
         <View style={styles.keyPoint}>
-              <Text style={styles.keyPointText}>• <b>Small, un-splitting branches</b>, resembling fingers</Text>
+              <Text style={styles.keyPointText}>• <b>Small, unsplitting branches</b>, resembling fingers</Text>
         </View>
         <Image 
           source={require("../../assets/images/courses/course24/id_tip1.png")}
