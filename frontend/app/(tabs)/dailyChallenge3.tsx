@@ -156,18 +156,18 @@ export default function ReefRescueRun() {
     };
 
   const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onPanResponderMove: (e, gestureState) => {
-        let newX = playerXVal + gestureState.dx;
-        newX = Math.max(0, Math.min(newX, width - PLAYER_SIZE));
-        playerX.setValue(newX);
-      },
-      onPanResponderRelease: () => {
-        // to add inertia / snapping 
-      },
-    })
-  ).current;
+  PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onMoveShouldSetPanResponder: () => true, 
+    onPanResponderMove: (e, gestureState) => {
+      let newX = playerXVal + gestureState.dx;
+      newX = Math.max(0, Math.min(newX, width - PLAYER_SIZE));
+      playerX.setValue(newX);
+    },
+    onPanResponderTerminationRequest: () => false,
+    onPanResponderRelease: () => {},
+  })
+).current;
 
   const handleCollision = (obj: GameObject) => {
     if (obj.type === 'coral') {
@@ -200,7 +200,7 @@ export default function ReefRescueRun() {
       setObjects((prev) => {
         let newObjects = prev
           .map((obj) => ({ ...obj, y: obj.y + FALL_SPEED }))
-          .filter((obj) => obj.y < height);
+          .filter((obj) => obj.y < height - OBJECT_SIZE);
 
         newObjects.forEach((obj) => {
           if (checkCollision(obj)) {

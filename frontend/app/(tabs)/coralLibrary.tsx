@@ -175,8 +175,8 @@ const coralData = [
   genus: 'Leptoseris',
   growth_form: "Foliose",
   regions: ["Indonesia", "Philippines", "Australia", "Papua New Guinea"],
-  habitat: "Found in shallow to deep waters, typically on reef slopes or deeper areas of the reef.",
-  id_tips: ["Flat, leathery plates", "Green to brown coloration, often with white edges"],
+  habitat: "Found in shallow to deep waters, typically on vertical or overhung walls.",
+  id_tips: ["Flat, leathery plates", "Cream to brown coloration, often with white edges"],
   id_tips_images: [
     require('../../assets/images/coral_library/leptoseris_foliosa/id_tip1.png'),
     require('../../assets/images/coral_library/leptoseris_foliosa/id_tip2.png')
@@ -184,7 +184,6 @@ const coralData = [
   gallery: [
     require('../../assets/images/coral_library/leptoseris_foliosa/gallery1.png'),
     require('../../assets/images/coral_library/leptoseris_foliosa/gallery2.png'),
-    require('../../assets/images/coral_library/leptoseris_foliosa/gallery3.png')
   ],
   fun_facts: [
     "Distinctly flat, leathery plates with irregular shapes.",

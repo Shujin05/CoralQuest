@@ -76,7 +76,6 @@ export default function ReefDetectivePage() {
         </View>
       </Modal>
 
-      {/* Success Modal */}
       <Modal visible={showSuccess} transparent animationType="slide">
         <View style={styles.modalContainer}>
           <Text style={styles.modalTitle}>✅ Mission Success!</Text>
@@ -87,7 +86,6 @@ export default function ReefDetectivePage() {
         </View>
       </Modal>
 
-      {/* Game Content */}
       <Image source={currentScenario.image} style={styles.image} />
       <Text style={styles.clue}>🔎{currentScenario.clue}</Text>
       <View style={styles.optionsContainer}>
